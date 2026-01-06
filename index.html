@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Simplism 簡單保養 - 新春刮好運</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-red: #d92323;
+            --dark-red: #a81919;
+            --gold: #fde68a;
+            --deep-gold: #fbbf24;
+            --card-red: #b91c1c;
+        }
+
+        body {
+            background-color: #8c1010;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #a81919 0%, #700a0a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 金蔥彩帶容器 */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: var(--gold);
+            opacity: 0.8;
+            top: -20px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotateX(360deg) rotateY(180deg) rotateZ(90deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* 頂部標題區 */
+        .header-section {
+            width: 100%;
+            text-align: center;
+            padding: 20px 15px 30px;
+            background: linear-gradient(to bottom, #b91c1c, #8c1010);
+            border-bottom: 4px solid var(--deep-gold);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+            position: relative;
+        }
+
+        .title-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        /* 自訂圖案樣式 */
+        .title-icon {
+            width: 50px;
+            height: 50px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            animation: bounce 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .icon-left { animation-delay: 0s; }
+        .icon-right { animation-delay: 1s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .brand-name {
+            font-size: 0.9rem;
+            color: var(--gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 8px;
+            opacity: 1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0 0 5px rgba(253, 230, 138, 0.3);
+        }
+
+        .main-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-shadow: 2px 2px 0px #450a0a, 0 0 15px rgba(253, 230, 138, 0.4);
+            margin: 0;
+        }
+
+        @media (min-width: 640px) {
+            .brand-name { font-size: 1.2rem; letter-spacing: 0.3em; margin-bottom: 12px; }
+            .main-title { font-size: 3.5rem; }
+            .header-section { padding: 30px 20px 40px; margin-bottom: 30px; }
+            .title-icon { width: 80px; height: 80px; }
+            .title-wrapper { gap: 30px; }
+        }
+
+        /* 活動卡片主體 */
+        .activity-card {
+            background: var(--card-red);
+            width: 95%;
+            max-width: 550px;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
+            border: 4px solid var(--deep-gold);
+            z-index: 10;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 640px) {
+            .activity-card { padding: 30px; }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed rgba(253, 230, 138, 0.4);
+            padding-bottom: 10px;
+        }
+
+        .scratch-area-outer {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 10px;
+            border: 2px inset rgba(253, 230, 138, 0.3);
+        }
+
+        .scratch-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #8c1010;
+            user-select: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 3px solid var(--deep-gold);
+        }
+
+        .scratch-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #b91c1c, #8c1010);
+            z-index: 1;
+        }
+
+        .prize-label {
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+
+        .prize-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(253, 230, 138, 0.8);
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        @media (min-width: 400px) {
+            .prize-label { font-size: 1.1rem; }
+            .prize-value { font-size: 2.2rem; }
+        }
+
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .btn-action {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: linear-gradient(180deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 0px #92400e, 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.1s;
+        }
+
+        @media (min-width: 640px) {
+            .btn-action { margin-top: 25px; padding: 15px; font-size: 1.25rem; }
+        }
+
+        .btn-action:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px #92400e, 0 5px 10px rgba(0,0,0,0.3);
+        }
+
+        .status-msg {
+            text-align: center;
+            margin-top: 12px;
+            color: var(--gold);
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* 活動規則區塊 */
+        .rules-section {
+            margin-top: 30px;
+            padding: 15px 8px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(253, 230, 138, 0.3);
+            border-radius: 12px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .rules-title {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-left: 5px;
+        }
+
+        .rules-list {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.78rem;
+            line-height: 1.8;
+            padding-left: 1.2rem;
+            list-style-type: disc;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+            .rules-list {
+                font-size: 0.72rem;
+                white-space: normal;
+                padding-left: 1rem;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .rules-list {
+                font-size: 0.88rem;
+            }
+        }
+
+        .rules-list li {
+            margin-bottom: 4px;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            color: rgba(253, 230, 138, 0.7);
+            text-align: center;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <header class="header-section">
+        <div class="brand-name">Simplism 簡單保養</div>
+        <div class="title-wrapper">
+            <!-- 紅包袋圖案 -->
+            <svg class="title-icon icon-left" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="80" height="100" rx="5" fill="#EF4444" stroke="#FBBF24" stroke-width="2"/>
+                <path d="M10 10L50 50L90 10" stroke="#FBBF24" stroke-width="2" fill="#DC2626"/>
+                <circle cx="50" cy="50" r="10" fill="#FBBF24"/>
+                <text x="50" y="55" font-family="Arial" font-size="10" fill="#B91C1C" text-anchor="middle" font-weight="bold">福</text>
+            </svg>
+
+            <h1 class="main-title">新春刮好運</h1>
+
+            <!-- 元寶圖案 (更換馬的圖案) -->
+            <svg class="title-icon icon-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- 元寶底部主體 -->
+                <path d="M10 50C10 70 30 90 50 90C70 90 90 70 90 50" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
+                <!-- 元寶上方圓弧 -->
+                <path d="M10 50C10 40 25 35 50 35C75 35 90 40 90 50" stroke="#B45309" stroke-width="2" fill="#FDE68A"/>
+                <!-- 元寶中間突起物 -->
+                <path d="M30 40C30 25 40 20 50 20C60 20 70 25 70 40" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
+            </svg>
+        </div>
+        <p class="text-yellow-200 text-base sm:text-lg mt-2">2026 馬年大吉 ‧ 限時好禮刮刮樂</p>
+    </header>
+
+    <main class="activity-card">
+        <div class="card-header">
+            <h2 class="text-xl sm:text-3xl font-bold text-yellow-200">新春好運刮刮樂</h2>
+            <p class="text-yellow-100 text-opacity-80 text-xs sm:text-sm mt-1">請在下方區域刮開獎項</p>
+        </div>
+
+        <div class="scratch-area-outer">
+            <div class="scratch-container" id="container">
+                <div class="scratch-content">
+                    <span class="prize-label">恭喜獲得</span>
+                    <span class="prize-value" id="prize-display">大吉大利</span>
+                </div>
+                <canvas id="scratch-canvas"></canvas>
+            </div>
+        </div>
+
+        <div class="status-msg" id="status-msg">已刮開：0%</div>
+
+        <button class="btn-action" onclick="resetGame()">再刮一張</button>
+        
+        <div class="rules-section">
+            <div class="rules-title">
+                <span>🧧</span>【活動規則】
+            </div>
+            <ul class="rules-list">
+                <li>限抽獎一次，單筆不限金額皆可使用。</li>
+                <li>活動字串有效期限至2026年02月28日（六）23:59為止。</li>
+                <li>活動字串優惠僅限於Simplism簡單保養官網登入會員使用。</li>
+                <li>使用時須於結帳頁面『活動字串』欄位輸入享優惠好禮，逾期無效。</li>
+            </ul>
+        </div>
+
+        <div class="footer-note">
+            * 本活動辦法最終解釋權歸Simplism簡單保養所有 *
+        </div>
+    </main>
+
+    <script>
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#fde68a', '#fbbf24', '#f59e0b', '#ef4444', '#ffffff'];
+            const count = window.innerWidth < 640 ? 30 : 60;
+
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const sizeWidth = Math.random() * 8 + 4;
+                const sizeHeight = Math.random() * 12 + 6;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 3 + 3;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                confetti.style.width = `${sizeWidth}px`;
+                confetti.style.height = `${sizeHeight}px`;
+                confetti.style.left = `${left}%`;
+                confetti.style.backgroundColor = color;
+                confetti.style.animationDelay = `${delay}s`;
+                confetti.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(confetti);
+            }
+        }
+
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const container = document.getElementById('container');
+        const statusMsg = document.getElementById('status-msg');
+        const prizeDisplay = document.getElementById('prize-display');
+
+        let isDrawing = false;
+        let lastX, lastY;
+        const brushSize = window.innerWidth < 640 ? 25 : 35;
+
+        function initCanvas() {
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width - 6;
+            canvas.height = rect.height - 6;
+
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#d1d5db'); 
+            gradient.addColorStop(0.5, '#9ca3af');
+            gradient.addColorStop(1, '#4b5563');
+            
+            ctx.fillStyle = gradient; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for(let i=0; i<150; i++) {
+                ctx.fillStyle = i % 10 === 0 ? '#fbbf24' : 'rgba(255,255,255,0.1)';
+                ctx.beginPath();
+                ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5, 0, Math.PI*2);
+                ctx.fill();
+            }
+
+            const fontSize = Math.min(canvas.width / 12, 22);
+            ctx.font = `bold ${fontSize}px "Microsoft JhengHei"`;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 4;
+            ctx.fillText('刮 開 領 驚 喜', canvas.width/2, canvas.height/2 + (fontSize/3));
+            
+            statusMsg.innerText = '已刮開：0%';
+            canvas.style.opacity = '1';
+        }
+
+        function getPointerPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            let clientX, clientY;
+            if (e.touches && e.touches[0]) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function startPosition(e) {
+            isDrawing = true;
+            const pos = getPointerPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+            draw(e);
+        }
+
+        function finishedPosition() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            ctx.beginPath();
+            checkProgress();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getPointerPos(e);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            lastX = pos.x;
+            lastY = pos.y;
+        }
+
+        function checkProgress() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            let transparentCount = 0;
+            for (let i = 3; i < pixels.length; i += 32) {
+                if (pixels[i] === 0) transparentCount++;
+            }
+            const totalSampled = pixels.length / 32;
+            const percent = Math.round((transparentCount / totalSampled) * 100);
+            statusMsg.innerText = `已刮開：${percent}%`;
+
+            if (percent > 45) {
+                canvas.style.transition = 'opacity 0.8s ease-out';
+                canvas.style.opacity = '0';
+                statusMsg.innerHTML = '<span class="text-white font-bold text-lg">🎊 好運降臨，大吉大利！ 🎊</span>';
+                setTimeout(() => { canvas.style.pointerEvents = 'none'; }, 800);
+            }
+        }
+
+        function resetGame() {
+            const prizes = ['洗面乳 🎁', '修護乳 🧴', '$1,688 禮金', '新年福袋 🛍️', '大吉大利', '恭喜發財'];
+            prizeDisplay.innerText = prizes[Math.floor(Math.random() * prizes.length)];
+            canvas.style.pointerEvents = 'auto';
+            initCanvas();
+        }
+
+        canvas.addEventListener('mousedown', startPosition);
+        window.addEventListener('mouseup', finishedPosition);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('touchstart', (e) => { 
+            if (e.target === canvas) e.preventDefault();
+            startPosition(e); 
+        }, { passive: false });
+        window.addEventListener('touchend', finishedPosition);
+        canvas.addEventListener('touchmove', (e) => { 
+            if (e.target === canvas) e.preventDefault();
+            draw(e); 
+        }, { passive: false });
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initCanvas();
+                createConfetti();
+            }, 250);
+        });
+        
+        window.onload = function() {
+            initCanvas();
+            createConfetti();
+        };
+    </script>
+</body>
+</html>
