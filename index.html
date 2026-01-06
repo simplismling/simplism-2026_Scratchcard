@@ -305,11 +305,183 @@
             text-align: center;
             line-height: 1.5;
         }
+
+        /* 側邊按鈕容器 */
+        .side-fabs {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 50;
+        }
+
+        /* 通用側邊按鈕樣式 - 統一色系 */
+        .side-btn {
+            background: linear-gradient(to left, #fbbf24, #f59e0b);
+            color: #8c1010;
+            padding: 15px 10px;
+            border-radius: 12px 0 0 12px;
+            font-weight: 900;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            cursor: pointer;
+            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: 4px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid #7c0b0b;
+            border-right: none;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            position: relative;
+        }
+
+        /* 移動到按鈕上的提示特效 */
+        .side-btn:hover {
+            padding-right: 20px;
+            background: linear-gradient(to left, #fde68a, #fbbf24);
+            transform: translateX(-10px);
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.4);
+            color: #b91c1c;
+        }
+
+        /* 指示箭頭/提示符號 */
+        .side-btn::before {
+            content: '▶';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .side-btn:hover::before {
+            opacity: 1;
+            left: 2px;
+        }
+
+        /* 彈跳視窗樣式 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #b91c1c;
+            width: 100%;
+            max-width: 400px;
+            border: 4px solid var(--deep-gold);
+            border-radius: 20px;
+            position: relative;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: modalPop 0.3s ease-out;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: var(--gold);
+            color: #8c1010;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #8c1010;
+        }
+
+        .prize-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid rgba(253, 230, 138, 0.2);
+            color: #fff;
+        }
+
+        .prize-item:last-child {
+            border-bottom: none;
+        }
+
+        .prize-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .prize-count {
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
     <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- 側邊按鈕容器 -->
+    <div class="side-fabs">
+        <!-- 官方網站按鈕改為馬上購物 -->
+        <a href="https://www.simplism.com.tw/" target="_blank" class="side-btn">
+            馬上購物
+        </a>
+        <!-- 活動獎品按鈕 -->
+        <div class="side-btn" onclick="toggleModal(true)">
+            活動獎品
+        </div>
+    </div>
+
+    <!-- 獎品彈跳視窗 -->
+    <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+        <div class="modal-content">
+            <div class="modal-close" onclick="toggleModal(false)">✕</div>
+            <h3 class="text-2xl font-black text-center text-yellow-200 mb-6 underline decoration-double">🧧 獎項列表 🧧</h3>
+            <div class="space-y-1">
+                <div class="prize-item">
+                    <span class="prize-name">頭獎：$1,688 禮金</span>
+                    <span class="prize-count">3 名</span>
+                </div>
+                <div class="prize-item">
+                    <span class="prize-name">二獎：新年福袋 🛍️</span>
+                    <span class="prize-count">10 名</span>
+                </div>
+                <div class="prize-item">
+                    <span class="prize-name">三獎：修護乳 🧴</span>
+                    <span class="prize-count">30 名</span>
+                </div>
+                <div class="prize-item">
+                    <span class="prize-name">四獎：洗面乳 🎁</span>
+                    <span class="prize-count">50 名</span>
+                </div>
+                <div class="prize-item">
+                    <span class="prize-name">普獎：大吉大利</span>
+                    <span class="prize-count">人人有獎</span>
+                </div>
+            </div>
+            <p class="text-center text-yellow-100 text-xs mt-6 opacity-80">* 實際獎項內容依官網公告為準 *</p>
+        </div>
+    </div>
 
     <header class="header-section">
         <div class="brand-name">Simplism 簡單保養</div>
@@ -324,13 +496,10 @@
 
             <h1 class="main-title">新春刮好運</h1>
 
-            <!-- 元寶圖案 (更換馬的圖案) -->
+            <!-- 元寶圖案 -->
             <svg class="title-icon icon-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- 元寶底部主體 -->
                 <path d="M10 50C10 70 30 90 50 90C70 90 90 70 90 50" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
-                <!-- 元寶上方圓弧 -->
                 <path d="M10 50C10 40 25 35 50 35C75 35 90 40 90 50" stroke="#B45309" stroke-width="2" fill="#FDE68A"/>
-                <!-- 元寶中間突起物 -->
                 <path d="M30 40C30 25 40 20 50 20C60 20 70 25 70 40" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
             </svg>
         </div>
@@ -375,6 +544,18 @@
     </main>
 
     <script>
+        // 彈跳視窗控制
+        function toggleModal(show) {
+            const modal = document.getElementById('modal-overlay');
+            modal.style.display = show ? 'flex' : 'none';
+        }
+
+        function handleOverlayClick(e) {
+            if (e.target.id === 'modal-overlay') {
+                toggleModal(false);
+            }
+        }
+
         function createConfetti() {
             const container = document.getElementById('confetti-container');
             const colors = ['#fde68a', '#fbbf24', '#f59e0b', '#ef4444', '#ffffff'];
@@ -433,13 +614,14 @@
                 ctx.fill();
             }
 
-            const fontSize = Math.min(canvas.width / 12, 22);
+            // 修改此處文字內容
+            const fontSize = Math.min(canvas.width / 12, 18);
             ctx.font = `bold ${fontSize}px "Microsoft JhengHei"`;
             ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
             ctx.textAlign = 'center';
             ctx.shadowColor = 'rgba(0,0,0,0.5)';
             ctx.shadowBlur = 4;
-            ctx.fillText('刮 開 領 驚 喜', canvas.width/2, canvas.height/2 + (fontSize/3));
+            ctx.fillText('馬 上 刮 開 即 中 獎', canvas.width/2, canvas.height/2 + (fontSize/3));
             
             statusMsg.innerText = '已刮開：0%';
             canvas.style.opacity = '1';
