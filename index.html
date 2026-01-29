@@ -146,7 +146,7 @@
         .attempts-badge {
             background: var(--gold);
             color: #8c1010;
-            padding: 2px 12px;
+            padding: 2px 10px;
             border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 900;
@@ -253,6 +253,8 @@
             transition: all 0.2s;
         }
 
+        .copy-btn:active { transform: scale(0.95); }
+
         .status-msg { text-align: center; margin-top: 12px; color: var(--gold); font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 0.9rem; min-height: 3em; display: flex; flex-direction: column; justify-content: center; }
 
         /* 活動規則區塊 */
@@ -348,15 +350,8 @@
             border: 2px solid #8c1010;
         }
 
-        .prize-item-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid rgba(253, 230, 138, 0.2); color: #fff; }
+        .prize-item-row { display: flex; align-items: center; justify-content: center; padding: 12px 15px; border-bottom: 1px solid rgba(253, 230, 138, 0.2); color: #fff; text-align: center; }
         .prize-item-row:last-child { border-bottom: none; }
-
-        #toast {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: #22c55e; color: white; padding: 10px 25px; border-radius: 50px;
-            font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: none; z-index: 200;
-        }
 
         .footer-note { margin-top: 20px; font-size: 0.7rem; color: rgba(253, 230, 138, 0.7); text-align: center; line-height: 1.5; }
     </style>
@@ -378,15 +373,16 @@
             <div class="modal-close" onclick="toggleModal(false)">✕</div>
             <h3 class="text-2xl font-black text-center text-yellow-200 mb-6 underline decoration-double">🧧 獎項清單 🧧</h3>
             <div class="space-y-0 max-h-[60vh] overflow-y-auto pr-2">
-                <div class="prize-item-row"><span>現折1000元</span> <span class="text-yellow-400">0.5%</span></div>
-                <div class="prize-item-row"><span>現折588元</span> <span class="text-yellow-400">2%</span></div>
-                <div class="prize-item-row"><span>玻尿酸15ML</span> <span class="text-yellow-400">8%</span></div>
-                <div class="prize-item-row"><span>現折288元</span> <span class="text-yellow-400">9%</span></div>
-                <div class="prize-item-row"><span>現折66元</span> <span class="text-yellow-400">12%</span></div>
-                <div class="prize-item-row"><span>現折88元</span> <span class="text-yellow-400">20%</span></div>
-                <div class="prize-item-row"><span>現折188元</span> <span class="text-yellow-400">23.5%</span></div>
-                <div class="prize-item-row"><span>現折168元</span> <span class="text-yellow-400">25%</span></div>
+                <div class="prize-item-row"><span>現折1000元</span></div>
+                <div class="prize-item-row"><span>現折588元</span></div>
+                <div class="prize-item-row"><span>玻尿酸15ML</span></div>
+                <div class="prize-item-row"><span>現折288元</span></div>
+                <div class="prize-item-row"><span>現折188元</span></div>
+                <div class="prize-item-row"><span>現折168元</span></div>
+                <div class="prize-item-row"><span>現折88元</span></div>
+                <div class="prize-item-row"><span>現折66元</span></div>
             </div>
+            <p class="text-center text-yellow-100 text-xs mt-6 opacity-80">* 實際獎項內容依官網公告為準 *</p>
         </div>
     </div>
 
@@ -421,7 +417,7 @@
                 <div class="scratch-content" id="scratch-content">
                     <span class="prize-label">恭喜獲得</span>
                     <span class="prize-value" id="prize-display">---</span>
-                    <div class="code-container">
+                    <div class="code-container" id="code-container">
                         <span class="code-label">活動字串 (結帳時輸入)</span>
                         <span class="code-text" id="code-display">----</span>
                     </div>
@@ -457,12 +453,12 @@
     <script>
         const prizes = [
             { name: "現折66元", chance: 12, code: "MA66HA" },
-            { name: "現折88元", chance: 20, code: "MA88S" },
-            { name: "現折168元", chance: 25, code: "MA128" },
-            { name: "現折188元", chance: 23.5, code: "MA188" },
-            { name: "現折288元", chance: 9, code: "MA288" },
-            { name: "現折588元", chance: 2, code: "MA588" },
-            { name: "現折1000元", chance: 0.5, code: "MA1000" },
+            { name: "現折88元", chance: 20, code: "MA88SP" },
+            { name: "現折168元", chance: 25, code: "MA128QX" },
+            { name: "現折188元", chance: 23.5, code: "MA188MB" },
+            { name: "現折288元", chance: 9, code: "MA288LO" },
+            { name: "現折588元", chance: 2, code: "MA588FW" },
+            { name: "現折1000元", chance: 0.5, code: "MA1000JG" },
             { name: "玻尿酸15ML", chance: 8, code: "MA2026B3" }
         ];
 
@@ -471,9 +467,9 @@
         let isScratchedThisTurn = false;
         let isDrawing = false;
         let lastX, lastY;
+        let copyTimer = null;
         const brushSize = window.innerWidth < 640 ? 25 : 35;
 
-        // 本地儲存 KEY
         const STORAGE_KEY = 'simplism_scratch_attempts_2026';
 
         function toggleModal(show) { document.getElementById('modal-overlay').style.display = show ? 'flex' : 'none'; }
@@ -505,6 +501,7 @@
         const resetBtn = document.getElementById('reset-btn');
         const attemptsBadge = document.getElementById('attempts-badge');
         const subHint = document.getElementById('sub-hint');
+        const codeContainer = document.getElementById('code-container');
 
         function pickPrize() {
             const random = Math.random() * 100;
@@ -543,6 +540,11 @@
             canvas.style.opacity = '1';
             canvas.style.pointerEvents = 'auto';
             isScratchedThisTurn = false;
+
+            // 確保正常遊戲時顯示
+            document.querySelector('.prize-label').style.display = 'block';
+            codeContainer.style.display = 'flex';
+            prizeDisplay.style.fontSize = ""; 
         }
 
         function updateAttemptsUI() {
@@ -556,7 +558,15 @@
         function resetGame() {
             if (attemptsLeft <= 0) return;
             
+            if (copyTimer) {
+                clearTimeout(copyTimer);
+                copyTimer = null;
+            }
+            copyBtn.innerText = "點我複製折扣碼";
+            copyBtn.style.background = ""; 
+            copyBtn.style.color = "";
             copyBtn.style.display = 'none';
+
             screenHint.classList.add('opacity-0');
             statusMsg.innerText = "已刮開：0%";
 
@@ -589,7 +599,6 @@
                 isScratchedThisTurn = true;
                 attemptsLeft--;
                 
-                // 儲存狀態到本地
                 localStorage.setItem(STORAGE_KEY, attemptsLeft);
                 updateAttemptsUI();
 
@@ -616,8 +625,14 @@
                 <div class="text-yellow-400 font-bold text-lg">您已參與過抽獎囉！🧧</div>
                 <div class="text-white text-sm mt-1">歡迎關注我們獲得更多活動資訊</div>
             `;
-            prizeDisplay.innerText = "下次再會";
-            codeDisplay.innerText = "THANKYOU";
+            
+            // 隱藏標籤與折扣碼框，僅保留 Thankyou
+            document.querySelector('.prize-label').style.display = 'none';
+            codeContainer.style.display = 'none';
+            prizeDisplay.innerText = "THANKYOU";
+            prizeDisplay.style.fontSize = "2.5rem";
+            prizeDisplay.style.letterSpacing = "2px";
+            
             subHint.innerText = "抽獎次數已達上限";
         }
 
@@ -627,7 +642,7 @@
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             return { x: clientX - rect.left, y: clientY - rect.top };
         }
-        function startDraw(e) { if(attemptsLeft <= 0 && !isScratchedThisTurn) return; isDrawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; draw(e); }
+        function startDraw(e) { isDrawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; draw(e); }
         function endDraw() { if (!isDrawing) return; isDrawing = false; checkProgress(); }
         function draw(e) {
             if (!isDrawing) return;
@@ -642,11 +657,24 @@
         function copyToClipboard() {
             const el = document.createElement("textarea"); el.value = currentPrize.code; document.body.appendChild(el);
             el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2000);
+            
+            if (copyTimer) clearTimeout(copyTimer);
+
+            const btn = document.getElementById('copy-btn');
+            const originalText = "點我複製折扣碼";
+            btn.innerText = "已複製折扣碼！";
+            btn.style.background = "#22c55e"; 
+            btn.style.color = "white";
+
+            copyTimer = setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = ""; 
+                btn.style.color = "";
+                copyTimer = null;
+            }, 500);
         }
 
         window.onload = () => {
-            // 初始化抽獎次數
             const savedAttempts = localStorage.getItem(STORAGE_KEY);
             if (savedAttempts !== null) {
                 attemptsLeft = parseInt(savedAttempts);
