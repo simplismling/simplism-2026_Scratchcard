@@ -99,15 +99,36 @@
             text-transform: uppercase;
             font-weight: 500;
             margin-bottom: 8px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0 0 5px rgba(253, 230, 138, 0.3);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
         }
 
+        /* 主標題強化立體效果 */
         .main-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 900;
             color: var(--gold);
-            text-shadow: 2px 2px 0px #450a0a, 0 0 15px rgba(253, 230, 138, 0.4);
+            text-shadow: 
+                1px 1px 0px #630808,
+                2px 2px 0px #630808,
+                3px 3px 0px #630808,
+                4px 4px 0px #630808,
+                5px 5px 15px rgba(0, 0, 0, 0.5),
+                0 0 10px rgba(253, 230, 138, 0.3);
             margin: 0;
+            line-height: 1.2;
+        }
+
+        /* 副標題立體效果 */
+        .sub-title-3d {
+            color: var(--gold);
+            font-weight: 900;
+            text-shadow: 
+                1px 1px 0px #450a0a,
+                2px 2px 0px #450a0a,
+                3px 3px 0px #450a0a,
+                0 0 10px rgba(253, 230, 138, 0.6);
+            letter-spacing: 1px;
+            margin-top: 10px;
         }
 
         @media (min-width: 640px) {
@@ -280,29 +301,16 @@
             top: 50%;
             transform: translateY(-50%);
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 50;
+            flex-direction: column; gap: 15px; z-index: 50;
         }
 
         .side-btn {
             background: linear-gradient(to left, #fbbf24, #f59e0b);
-            color: #8c1010;
-            padding: 15px 10px;
-            border-radius: 12px 0 0 12px;
-            font-weight: 900;
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-            cursor: pointer;
-            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
-            letter-spacing: 4px;
-            transition: all 0.3s;
-            border: 2px solid #7c0b0b;
-            border-right: none;
-            text-decoration: none;
-            display: block;
-            font-size: 14px;
-            position: relative;
+            color: #8c1010; padding: 15px 10px; border-radius: 12px 0 0 12px;
+            font-weight: 900; writing-mode: vertical-rl; text-orientation: upright;
+            cursor: pointer; box-shadow: -2px 2px 10px rgba(0,0,0,0.3); letter-spacing: 4px;
+            transition: all 0.3s; border: 2px solid #7c0b0b; border-right: none;
+            text-decoration: none; display: block; font-size: 14px;
         }
 
         .side-btn:hover { padding-right: 20px; background: linear-gradient(to left, #fde68a, #fbbf24); transform: translateX(-10px); }
@@ -310,44 +318,23 @@
         .side-btn:hover::before { opacity: 1; left: 2px; }
 
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            backdrop-filter: blur(5px);
-            padding: 20px;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none;
+            justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px); padding: 20px;
         }
 
         .modal-content {
-            background: #b91c1c;
-            width: 100%;
-            max-width: 450px;
-            border: 4px solid var(--deep-gold);
-            border-radius: 20px;
-            position: relative;
-            padding: 30px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: #b91c1c; width: 100%; max-width: 450px; border: 4px solid var(--deep-gold);
+            border-radius: 20px; padding: 30px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             animation: modalPop 0.3s ease-out;
         }
 
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .modal-close {
-            position: absolute;
-            top: 10px; right: 10px;
-            width: 30px; height: 30px;
-            background: var(--gold);
-            color: #8c1010;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid #8c1010;
+            position: absolute; top: 10px; right: 10px; width: 30px; height: 30px;
+            background: var(--gold); color: #8c1010; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; cursor: pointer; border: 2px solid #8c1010;
         }
 
         .prize-item-row { display: flex; align-items: center; justify-content: center; padding: 12px 15px; border-bottom: 1px solid rgba(253, 230, 138, 0.2); color: #fff; text-align: center; }
@@ -359,7 +346,6 @@
 <body>
 
     <div class="confetti-container" id="confetti-container"></div>
-    <div id="toast">已複製折扣碼！</div>
 
     <!-- 側邊按鈕 -->
     <div class="side-fabs">
@@ -367,7 +353,7 @@
         <div class="side-btn" onclick="toggleModal(true)">活動獎品</div>
     </div>
 
-    <!-- 獎品彈跳視窗 -->
+    <!-- 獎品清單視窗 -->
     <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleModal(false)">✕</div>
@@ -395,14 +381,14 @@
                 <circle cx="50" cy="50" r="10" fill="#FBBF24"/>
                 <text x="50" y="55" font-family="Arial" font-size="10" fill="#B91C1C" text-anchor="middle" font-weight="bold">福</text>
             </svg>
-            <h1 class="main-title">新春刮好運</h1>
+            <h1 class="main-title">新春開運紅包 <i class="italic">100%中獎</i></h1>
             <svg class="title-icon icon-right" viewBox="0 0 100 100" fill="none">
                 <path d="M10 50C10 70 30 90 50 90C70 90 90 70 90 50" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
                 <path d="M10 50C10 40 25 35 50 35C75 35 90 40 90 50" stroke="#B45309" stroke-width="2" fill="#FDE68A"/>
                 <path d="M30 40C30 25 40 20 50 20C60 20 70 25 70 40" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
             </svg>
         </div>
-        <p class="text-yellow-200 text-base sm:text-lg mt-2">2026 馬年大吉 ‧ 限時好禮刮刮樂</p>
+        <p class="sub-title-3d text-base sm:text-xl">好運馬上來，紅包等你來刮！</p>
     </header>
 
     <main class="activity-card">
@@ -430,7 +416,7 @@
         
         <div id="result-actions" class="flex flex-col items-center min-h-[60px]">
             <button class="copy-btn" id="copy-btn" onclick="copyToClipboard()">點我複製折扣碼</button>
-            <p id="screenshot-hint" class="text-white text-xs mt-2 opacity-0 transition-opacity">* 記得先截圖保存以免忘記！ *</p>
+            <p id="screenshot-hint" class="text-white text-xs mt-2 opacity-0 transition-opacity">請截圖保存！使用期限至2月28日止</p>
         </div>
 
         <button class="btn-action" id="reset-btn" onclick="resetGame()">再刮一張</button>
@@ -438,7 +424,7 @@
         <div class="rules-section">
             <div class="rules-title"><span>🧧</span>【活動規則】</div>
             <ul class="rules-list">
-                <li>限抽獎兩次，單筆不限金額皆可使用。</li>
+                <li>限刮二次，單筆限使用一組活動字串，全館滿千皆可使用。</li>
                 <li>活動字串有效期限至2026年02月28日（六）23:59為止。</li>
                 <li>活動字串優惠僅限於Simplism簡單保養官網登入會員使用。</li>
                 <li>使用時須於結帳頁面『活動字串』欄位輸入享優惠好禮，逾期無效。</li>
@@ -470,7 +456,9 @@
         let copyTimer = null;
         const brushSize = window.innerWidth < 640 ? 25 : 35;
 
-        const STORAGE_KEY = 'simplism_scratch_attempts_2026';
+        const STORAGE_KEY_ATTEMPTS = 'simplism_scratch_attempts_2026';
+        const STORAGE_KEY_LAST_PRIZE_NAME = 'simplism_last_prize_name';
+        const STORAGE_KEY_LAST_PRIZE_CODE = 'simplism_last_prize_code';
 
         function toggleModal(show) { document.getElementById('modal-overlay').style.display = show ? 'flex' : 'none'; }
         function handleOverlayClick(e) { if (e.target.id === 'modal-overlay') toggleModal(false); }
@@ -501,7 +489,6 @@
         const resetBtn = document.getElementById('reset-btn');
         const attemptsBadge = document.getElementById('attempts-badge');
         const subHint = document.getElementById('sub-hint');
-        const codeContainer = document.getElementById('code-container');
 
         function pickPrize() {
             const random = Math.random() * 100;
@@ -540,11 +527,6 @@
             canvas.style.opacity = '1';
             canvas.style.pointerEvents = 'auto';
             isScratchedThisTurn = false;
-
-            // 確保正常遊戲時顯示
-            document.querySelector('.prize-label').style.display = 'block';
-            codeContainer.style.display = 'flex';
-            prizeDisplay.style.fontSize = ""; 
         }
 
         function updateAttemptsUI() {
@@ -599,7 +581,10 @@
                 isScratchedThisTurn = true;
                 attemptsLeft--;
                 
-                localStorage.setItem(STORAGE_KEY, attemptsLeft);
+                localStorage.setItem(STORAGE_KEY_ATTEMPTS, attemptsLeft);
+                localStorage.setItem(STORAGE_KEY_LAST_PRIZE_NAME, currentPrize.name);
+                localStorage.setItem(STORAGE_KEY_LAST_PRIZE_CODE, currentPrize.code);
+
                 updateAttemptsUI();
 
                 canvas.style.transition = 'opacity 0.8s ease-out';
@@ -618,22 +603,25 @@
             }
         }
 
-        function showGameOver() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            canvas.style.display = 'none';
-            statusMsg.innerHTML = `
-                <div class="text-yellow-400 font-bold text-lg">您已參與過抽獎囉！🧧</div>
-                <div class="text-white text-sm mt-1">歡迎關注我們獲得更多活動資訊</div>
-            `;
-            
-            // 隱藏標籤與折扣碼框，僅保留 Thankyou
-            document.querySelector('.prize-label').style.display = 'none';
-            codeContainer.style.display = 'none';
-            prizeDisplay.innerText = "THANKYOU";
-            prizeDisplay.style.fontSize = "2.5rem";
-            prizeDisplay.style.letterSpacing = "2px";
-            
-            subHint.innerText = "抽獎次數已達上限";
+        function restoreFinalState() {
+            const savedPrizeName = localStorage.getItem(STORAGE_KEY_LAST_PRIZE_NAME);
+            const savedPrizeCode = localStorage.getItem(STORAGE_KEY_LAST_PRIZE_CODE);
+
+            if (savedPrizeName && savedPrizeCode) {
+                currentPrize = { name: savedPrizeName, code: savedPrizeCode };
+                prizeDisplay.innerText = savedPrizeName;
+                codeDisplay.innerText = savedPrizeCode;
+                canvas.style.display = 'none';
+                
+                statusMsg.innerHTML = `
+                    <div class="text-white font-bold text-lg">已刮開：100%</div>
+                    <div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>
+                `;
+                
+                copyBtn.style.display = 'block';
+                screenHint.classList.remove('opacity-0');
+                subHint.innerText = "抽獎次數已達上限";
+            }
         }
 
         function getPos(e) {
@@ -675,7 +663,7 @@
         }
 
         window.onload = () => {
-            const savedAttempts = localStorage.getItem(STORAGE_KEY);
+            const savedAttempts = localStorage.getItem(STORAGE_KEY_ATTEMPTS);
             if (savedAttempts !== null) {
                 attemptsLeft = parseInt(savedAttempts);
             }
@@ -688,7 +676,7 @@
                 codeDisplay.innerText = currentPrize.code;
                 initCanvas();
             } else {
-                showGameOver();
+                restoreFinalState();
             }
             
             createConfetti();
