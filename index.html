@@ -51,14 +51,8 @@
         }
 
         @keyframes fall {
-            0% {
-                transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(105vh) rotateX(360deg) rotateY(180deg) rotateZ(90deg);
-                opacity: 0.3;
-            }
+            0% { transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotateX(360deg) rotateY(180deg) rotateZ(90deg); opacity: 0.3; }
         }
 
         /* 頂部標題區 */
@@ -82,7 +76,6 @@
             position: relative;
         }
 
-        /* 自訂圖案樣式 */
         .title-icon {
             width: 50px;
             height: 50px;
@@ -106,7 +99,6 @@
             text-transform: uppercase;
             font-weight: 500;
             margin-bottom: 8px;
-            opacity: 1;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0 0 5px rgba(253, 230, 138, 0.3);
         }
 
@@ -151,6 +143,18 @@
             padding-bottom: 10px;
         }
 
+        .attempts-badge {
+            background: var(--gold);
+            color: #8c1010;
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            display: inline-block;
+            margin-top: 5px;
+            border: 1px solid #8c1010;
+        }
+
         .scratch-area-outer {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
@@ -182,30 +186,27 @@
             justify-content: center;
             background: radial-gradient(circle, #b91c1c, #8c1010);
             z-index: 1;
+            padding: 10px;
+            opacity: 1;
         }
 
-        .prize-label {
-            font-size: 0.9rem;
-            color: var(--gold);
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 2px;
+        .prize-label { font-size: 0.9rem; color: var(--gold); font-weight: bold; letter-spacing: 2px; margin-bottom: 5px; }
+        .prize-value { font-size: 1.6rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(253, 230, 138, 0.8); text-align: center; margin-bottom: 8px; }
+
+        .code-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 1px dashed var(--gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            margin-top: 5px;
         }
 
-        .prize-value {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(253, 230, 138, 0.8);
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
-            text-align: center;
-            padding: 0 10px;
-        }
-
-        @media (min-width: 400px) {
-            .prize-label { font-size: 1.1rem; }
-            .prize-value { font-size: 2.2rem; }
-        }
+        .code-label { font-size: 0.7rem; color: var(--gold); font-weight: 300; }
+        .code-text { font-family: monospace; font-size: 1.4rem; color: #fff; font-weight: bold; letter-spacing: 2px; }
 
         #scratch-canvas {
             position: absolute;
@@ -231,23 +232,28 @@
             transition: all 0.1s;
         }
 
-        @media (min-width: 640px) {
-            .btn-action { margin-top: 25px; padding: 15px; font-size: 1.25rem; }
+        .btn-action:disabled {
+            background: #4b5563;
+            box-shadow: 0 6px 0px #1f2937;
+            cursor: not-allowed;
+            filter: grayscale(1);
         }
 
-        .btn-action:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0px #92400e, 0 5px 10px rgba(0,0,0,0.3);
+        .copy-btn {
+            background: var(--gold);
+            color: #8c1010;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            display: none; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.2s;
         }
 
-        .status-msg {
-            text-align: center;
-            margin-top: 12px;
-            color: var(--gold);
-            font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            font-size: 0.9rem;
-        }
+        .status-msg { text-align: center; margin-top: 12px; color: var(--gold); font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 0.9rem; min-height: 3em; display: flex; flex-direction: column; justify-content: center; }
 
         /* 活動規則區塊 */
         .rules-section {
@@ -260,53 +266,12 @@
             width: 100%;
         }
 
-        .rules-title {
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding-left: 5px;
-        }
+        .rules-title { color: var(--gold); font-weight: bold; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; padding-left: 5px; }
+        .rules-list { color: rgba(255, 255, 255, 0.95); font-size: 0.78rem; line-height: 1.8; padding-left: 1.2rem; list-style-type: disc; white-space: nowrap; }
 
-        .rules-list {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 0.78rem;
-            line-height: 1.8;
-            padding-left: 1.2rem;
-            list-style-type: disc;
-            white-space: nowrap;
-        }
+        @media (max-width: 480px) { .rules-list { font-size: 0.72rem; white-space: normal; padding-left: 1rem; } }
 
-        @media (max-width: 480px) {
-            .rules-list {
-                font-size: 0.72rem;
-                white-space: normal;
-                padding-left: 1rem;
-            }
-        }
-
-        @media (min-width: 600px) {
-            .rules-list {
-                font-size: 0.88rem;
-            }
-        }
-
-        .rules-list li {
-            margin-bottom: 4px;
-        }
-
-        .footer-note {
-            margin-top: 20px;
-            font-size: 0.7rem;
-            color: rgba(253, 230, 138, 0.7);
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        /* 側邊按鈕容器 */
+        /* 側邊按鈕 */
         .side-fabs {
             position: fixed;
             right: 0;
@@ -318,7 +283,6 @@
             z-index: 50;
         }
 
-        /* 通用側邊按鈕樣式 - 統一色系 */
         .side-btn {
             background: linear-gradient(to left, #fbbf24, #f59e0b);
             color: #8c1010;
@@ -330,7 +294,7 @@
             cursor: pointer;
             box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
             letter-spacing: 4px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s;
             border: 2px solid #7c0b0b;
             border-right: none;
             text-decoration: none;
@@ -339,33 +303,10 @@
             position: relative;
         }
 
-        /* 移動到按鈕上的提示特效 */
-        .side-btn:hover {
-            padding-right: 20px;
-            background: linear-gradient(to left, #fde68a, #fbbf24);
-            transform: translateX(-10px);
-            box-shadow: -5px 5px 15px rgba(0,0,0,0.4);
-            color: #b91c1c;
-        }
+        .side-btn:hover { padding-right: 20px; background: linear-gradient(to left, #fde68a, #fbbf24); transform: translateX(-10px); }
+        .side-btn::before { content: '▶'; position: absolute; left: -15px; top: 50%; transform: translateY(-50%); font-size: 10px; opacity: 0; transition: all 0.3s; }
+        .side-btn:hover::before { opacity: 1; left: 2px; }
 
-        /* 指示箭頭/提示符號 */
-        .side-btn::before {
-            content: '▶';
-            position: absolute;
-            left: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 10px;
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        .side-btn:hover::before {
-            opacity: 1;
-            left: 2px;
-        }
-
-        /* 彈跳視窗樣式 */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -381,7 +322,7 @@
         .modal-content {
             background: #b91c1c;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             border: 4px solid var(--deep-gold);
             border-radius: 20px;
             position: relative;
@@ -390,17 +331,12 @@
             animation: modalPop 0.3s ease-out;
         }
 
-        @keyframes modalPop {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .modal-close {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
+            top: 10px; right: 10px;
+            width: 30px; height: 30px;
             background: var(--gold);
             color: #8c1010;
             border-radius: 50%;
@@ -412,92 +348,59 @@
             border: 2px solid #8c1010;
         }
 
-        .prize-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            border-bottom: 1px solid rgba(253, 230, 138, 0.2);
-            color: #fff;
+        .prize-item-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid rgba(253, 230, 138, 0.2); color: #fff; }
+        .prize-item-row:last-child { border-bottom: none; }
+
+        #toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #22c55e; color: white; padding: 10px 25px; border-radius: 50px;
+            font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: none; z-index: 200;
         }
 
-        .prize-item:last-child {
-            border-bottom: none;
-        }
-
-        .prize-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .prize-count {
-            color: var(--gold);
-            font-size: 0.9rem;
-        }
+        .footer-note { margin-top: 20px; font-size: 0.7rem; color: rgba(253, 230, 138, 0.7); text-align: center; line-height: 1.5; }
     </style>
 </head>
 <body>
 
     <div class="confetti-container" id="confetti-container"></div>
+    <div id="toast">已複製折扣碼！</div>
 
-    <!-- 側邊按鈕容器 -->
+    <!-- 側邊按鈕 -->
     <div class="side-fabs">
-        <!-- 官方網站按鈕改為馬上購物 -->
-        <a href="https://www.simplism.com.tw/" target="_blank" class="side-btn">
-            馬上購物
-        </a>
-        <!-- 活動獎品按鈕 -->
-        <div class="side-btn" onclick="toggleModal(true)">
-            活動獎品
-        </div>
+        <a href="https://www.simplism.com.tw/" target="_blank" class="side-btn">馬上購物</a>
+        <div class="side-btn" onclick="toggleModal(true)">活動獎品</div>
     </div>
 
     <!-- 獎品彈跳視窗 -->
     <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleModal(false)">✕</div>
-            <h3 class="text-2xl font-black text-center text-yellow-200 mb-6 underline decoration-double">🧧 獎項列表 🧧</h3>
-            <div class="space-y-1">
-                <div class="prize-item">
-                    <span class="prize-name">頭獎：$1,688 禮金</span>
-                    <span class="prize-count">3 名</span>
-                </div>
-                <div class="prize-item">
-                    <span class="prize-name">二獎：新年福袋 🛍️</span>
-                    <span class="prize-count">10 名</span>
-                </div>
-                <div class="prize-item">
-                    <span class="prize-name">三獎：修護乳 🧴</span>
-                    <span class="prize-count">30 名</span>
-                </div>
-                <div class="prize-item">
-                    <span class="prize-name">四獎：洗面乳 🎁</span>
-                    <span class="prize-count">50 名</span>
-                </div>
-                <div class="prize-item">
-                    <span class="prize-name">普獎：大吉大利</span>
-                    <span class="prize-count">人人有獎</span>
-                </div>
+            <h3 class="text-2xl font-black text-center text-yellow-200 mb-6 underline decoration-double">🧧 獎項清單 🧧</h3>
+            <div class="space-y-0 max-h-[60vh] overflow-y-auto pr-2">
+                <div class="prize-item-row"><span>現折1000元</span> <span class="text-yellow-400">0.5%</span></div>
+                <div class="prize-item-row"><span>現折588元</span> <span class="text-yellow-400">2%</span></div>
+                <div class="prize-item-row"><span>玻尿酸15ML</span> <span class="text-yellow-400">8%</span></div>
+                <div class="prize-item-row"><span>現折288元</span> <span class="text-yellow-400">9%</span></div>
+                <div class="prize-item-row"><span>現折66元</span> <span class="text-yellow-400">12%</span></div>
+                <div class="prize-item-row"><span>現折88元</span> <span class="text-yellow-400">20%</span></div>
+                <div class="prize-item-row"><span>現折188元</span> <span class="text-yellow-400">23.5%</span></div>
+                <div class="prize-item-row"><span>現折168元</span> <span class="text-yellow-400">25%</span></div>
             </div>
-            <p class="text-center text-yellow-100 text-xs mt-6 opacity-80">* 實際獎項內容依官網公告為準 *</p>
         </div>
     </div>
 
     <header class="header-section">
         <div class="brand-name">Simplism 簡單保養</div>
         <div class="title-wrapper">
-            <!-- 紅包袋圖案 -->
-            <svg class="title-icon icon-left" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="title-icon icon-left" viewBox="0 0 100 120" fill="none">
                 <rect x="10" y="10" width="80" height="100" rx="5" fill="#EF4444" stroke="#FBBF24" stroke-width="2"/>
                 <path d="M10 10L50 50L90 10" stroke="#FBBF24" stroke-width="2" fill="#DC2626"/>
                 <circle cx="50" cy="50" r="10" fill="#FBBF24"/>
                 <text x="50" y="55" font-family="Arial" font-size="10" fill="#B91C1C" text-anchor="middle" font-weight="bold">福</text>
             </svg>
-
             <h1 class="main-title">新春刮好運</h1>
-
-            <!-- 元寶圖案 -->
-            <svg class="title-icon icon-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="title-icon icon-right" viewBox="0 0 100 100" fill="none">
                 <path d="M10 50C10 70 30 90 50 90C70 90 90 70 90 50" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
                 <path d="M10 50C10 40 25 35 50 35C75 35 90 40 90 50" stroke="#B45309" stroke-width="2" fill="#FDE68A"/>
                 <path d="M30 40C30 25 40 20 50 20C60 20 70 25 70 40" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
@@ -509,29 +412,37 @@
     <main class="activity-card">
         <div class="card-header">
             <h2 class="text-xl sm:text-3xl font-bold text-yellow-200">新春好運刮刮樂</h2>
-            <p class="text-yellow-100 text-opacity-80 text-xs sm:text-sm mt-1">請在下方區域刮開獎項</p>
+            <div class="attempts-badge" id="attempts-badge">剩餘次數：2</div>
+            <p class="text-yellow-100 text-opacity-80 text-xs sm:text-sm mt-1" id="sub-hint">請在下方區域刮開獎項</p>
         </div>
 
         <div class="scratch-area-outer">
             <div class="scratch-container" id="container">
-                <div class="scratch-content">
+                <div class="scratch-content" id="scratch-content">
                     <span class="prize-label">恭喜獲得</span>
-                    <span class="prize-value" id="prize-display">大吉大利</span>
+                    <span class="prize-value" id="prize-display">---</span>
+                    <div class="code-container">
+                        <span class="code-label">活動字串 (結帳時輸入)</span>
+                        <span class="code-text" id="code-display">----</span>
+                    </div>
                 </div>
                 <canvas id="scratch-canvas"></canvas>
             </div>
         </div>
 
         <div class="status-msg" id="status-msg">已刮開：0%</div>
+        
+        <div id="result-actions" class="flex flex-col items-center min-h-[60px]">
+            <button class="copy-btn" id="copy-btn" onclick="copyToClipboard()">點我複製折扣碼</button>
+            <p id="screenshot-hint" class="text-white text-xs mt-2 opacity-0 transition-opacity">* 記得先截圖保存以免忘記！ *</p>
+        </div>
 
-        <button class="btn-action" onclick="resetGame()">再刮一張</button>
+        <button class="btn-action" id="reset-btn" onclick="resetGame()">再刮一張</button>
         
         <div class="rules-section">
-            <div class="rules-title">
-                <span>🧧</span>【活動規則】
-            </div>
+            <div class="rules-title"><span>🧧</span>【活動規則】</div>
             <ul class="rules-list">
-                <li>限抽獎一次，單筆不限金額皆可使用。</li>
+                <li>限抽獎兩次，單筆不限金額皆可使用。</li>
                 <li>活動字串有效期限至2026年02月28日（六）23:59為止。</li>
                 <li>活動字串優惠僅限於Simplism簡單保養官網登入會員使用。</li>
                 <li>使用時須於結帳頁面『活動字串』欄位輸入享優惠好禮，逾期無效。</li>
@@ -544,42 +455,41 @@
     </main>
 
     <script>
-        // 彈跳視窗控制
-        function toggleModal(show) {
-            const modal = document.getElementById('modal-overlay');
-            modal.style.display = show ? 'flex' : 'none';
-        }
+        const prizes = [
+            { name: "現折66元", chance: 12, code: "MA66HA" },
+            { name: "現折88元", chance: 20, code: "MA88S" },
+            { name: "現折168元", chance: 25, code: "MA128" },
+            { name: "現折188元", chance: 23.5, code: "MA188" },
+            { name: "現折288元", chance: 9, code: "MA288" },
+            { name: "現折588元", chance: 2, code: "MA588" },
+            { name: "現折1000元", chance: 0.5, code: "MA1000" },
+            { name: "玻尿酸15ML", chance: 8, code: "MA2026B3" }
+        ];
 
-        function handleOverlayClick(e) {
-            if (e.target.id === 'modal-overlay') {
-                toggleModal(false);
-            }
-        }
+        let currentPrize = null;
+        let attemptsLeft = 2;
+        let isScratchedThisTurn = false;
+        let isDrawing = false;
+        let lastX, lastY;
+        const brushSize = window.innerWidth < 640 ? 25 : 35;
+
+        // 本地儲存 KEY
+        const STORAGE_KEY = 'simplism_scratch_attempts_2026';
+
+        function toggleModal(show) { document.getElementById('modal-overlay').style.display = show ? 'flex' : 'none'; }
+        function handleOverlayClick(e) { if (e.target.id === 'modal-overlay') toggleModal(false); }
 
         function createConfetti() {
             const container = document.getElementById('confetti-container');
             const colors = ['#fde68a', '#fbbf24', '#f59e0b', '#ef4444', '#ffffff'];
-            const count = window.innerWidth < 640 ? 30 : 60;
-
             container.innerHTML = '';
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < 40; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
-                
-                const sizeWidth = Math.random() * 8 + 4;
-                const sizeHeight = Math.random() * 12 + 6;
-                const left = Math.random() * 100;
-                const delay = Math.random() * 5;
-                const duration = Math.random() * 3 + 3;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-
-                confetti.style.width = `${sizeWidth}px`;
-                confetti.style.height = `${sizeHeight}px`;
-                confetti.style.left = `${left}%`;
-                confetti.style.backgroundColor = color;
-                confetti.style.animationDelay = `${delay}s`;
-                confetti.style.animationDuration = `${duration}s`;
-                
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = `${Math.random() * 5}s`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
                 container.appendChild(confetti);
             }
         }
@@ -589,21 +499,31 @@
         const container = document.getElementById('container');
         const statusMsg = document.getElementById('status-msg');
         const prizeDisplay = document.getElementById('prize-display');
+        const codeDisplay = document.getElementById('code-display');
+        const copyBtn = document.getElementById('copy-btn');
+        const screenHint = document.getElementById('screenshot-hint');
+        const resetBtn = document.getElementById('reset-btn');
+        const attemptsBadge = document.getElementById('attempts-badge');
+        const subHint = document.getElementById('sub-hint');
 
-        let isDrawing = false;
-        let lastX, lastY;
-        const brushSize = window.innerWidth < 640 ? 25 : 35;
+        function pickPrize() {
+            const random = Math.random() * 100;
+            let cumulative = 0;
+            for (const prize of prizes) {
+                cumulative += prize.chance;
+                if (random < cumulative) return prize;
+            }
+            return prizes[prizes.length - 1];
+        }
 
         function initCanvas() {
             const rect = container.getBoundingClientRect();
             canvas.width = rect.width - 6;
             canvas.height = rect.height - 6;
 
+            ctx.globalCompositeOperation = 'source-over';
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#d1d5db'); 
-            gradient.addColorStop(0.5, '#9ca3af');
-            gradient.addColorStop(1, '#4b5563');
-            
+            gradient.addColorStop(0, '#d1d5db'); gradient.addColorStop(0.5, '#9ca3af'); gradient.addColorStop(1, '#4b5563');
             ctx.fillStyle = gradient; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -614,114 +534,145 @@
                 ctx.fill();
             }
 
-            // 修改此處文字內容
             const fontSize = Math.min(canvas.width / 12, 18);
             ctx.font = `bold ${fontSize}px "Microsoft JhengHei"`;
             ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
             ctx.textAlign = 'center';
-            ctx.shadowColor = 'rgba(0,0,0,0.5)';
-            ctx.shadowBlur = 4;
             ctx.fillText('馬 上 刮 開 即 中 獎', canvas.width/2, canvas.height/2 + (fontSize/3));
             
-            statusMsg.innerText = '已刮開：0%';
             canvas.style.opacity = '1';
+            canvas.style.pointerEvents = 'auto';
+            isScratchedThisTurn = false;
         }
 
-        function getPointerPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            let clientX, clientY;
-            if (e.touches && e.touches[0]) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            }
-            return { x: clientX - rect.left, y: clientY - rect.top };
-        }
-
-        function startPosition(e) {
-            isDrawing = true;
-            const pos = getPointerPos(e);
-            lastX = pos.x;
-            lastY = pos.y;
-            draw(e);
-        }
-
-        function finishedPosition() {
-            if (!isDrawing) return;
-            isDrawing = false;
-            ctx.beginPath();
-            checkProgress();
-        }
-
-        function draw(e) {
-            if (!isDrawing) return;
-            const pos = getPointerPos(e);
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineWidth = brushSize;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            lastX = pos.x;
-            lastY = pos.y;
-        }
-
-        function checkProgress() {
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const pixels = imageData.data;
-            let transparentCount = 0;
-            for (let i = 3; i < pixels.length; i += 32) {
-                if (pixels[i] === 0) transparentCount++;
-            }
-            const totalSampled = pixels.length / 32;
-            const percent = Math.round((transparentCount / totalSampled) * 100);
-            statusMsg.innerText = `已刮開：${percent}%`;
-
-            if (percent > 45) {
-                canvas.style.transition = 'opacity 0.8s ease-out';
-                canvas.style.opacity = '0';
-                statusMsg.innerHTML = '<span class="text-white font-bold text-lg">🎊 好運降臨，大吉大利！ 🎊</span>';
-                setTimeout(() => { canvas.style.pointerEvents = 'none'; }, 800);
+        function updateAttemptsUI() {
+            attemptsBadge.innerText = `剩餘次數：${attemptsLeft}`;
+            if (attemptsLeft <= 0) {
+                resetBtn.disabled = true;
+                resetBtn.innerText = "抽獎次數已用完";
             }
         }
 
         function resetGame() {
-            const prizes = ['洗面乳 🎁', '修護乳 🧴', '$1,688 禮金', '新年福袋 🛍️', '大吉大利', '恭喜發財'];
-            prizeDisplay.innerText = prizes[Math.floor(Math.random() * prizes.length)];
-            canvas.style.pointerEvents = 'auto';
+            if (attemptsLeft <= 0) return;
+            
+            copyBtn.style.display = 'none';
+            screenHint.classList.add('opacity-0');
+            statusMsg.innerText = "已刮開：0%";
+
+            canvas.style.transition = 'none';
             initCanvas();
+
+            setTimeout(() => {
+                currentPrize = pickPrize();
+                prizeDisplay.innerText = currentPrize.name;
+                codeDisplay.innerText = currentPrize.code;
+            }, 50);
         }
 
-        canvas.addEventListener('mousedown', startPosition);
-        window.addEventListener('mouseup', finishedPosition);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('touchstart', (e) => { 
-            if (e.target === canvas) e.preventDefault();
-            startPosition(e); 
-        }, { passive: false });
-        window.addEventListener('touchend', finishedPosition);
-        canvas.addEventListener('touchmove', (e) => { 
-            if (e.target === canvas) e.preventDefault();
-            draw(e); 
-        }, { passive: false });
+        function checkProgress() {
+            if (isScratchedThisTurn) return;
 
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            let transparentCount = 0;
+            let totalSampled = 0;
+
+            for (let i = 3; i < pixels.length; i += 32) { 
+                totalSampled++;
+                if (pixels[i] === 0) transparentCount++; 
+            }
+            
+            let percent = Math.round((transparentCount / totalSampled) * 100);
+
+            if (percent > 45) {
+                isScratchedThisTurn = true;
+                attemptsLeft--;
+                
+                // 儲存狀態到本地
+                localStorage.setItem(STORAGE_KEY, attemptsLeft);
+                updateAttemptsUI();
+
+                canvas.style.transition = 'opacity 0.8s ease-out';
+                canvas.style.opacity = '0';
+                
+                statusMsg.innerHTML = `
+                    <div class="text-white font-bold text-lg">已刮開：100%</div>
+                    <div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>
+                `;
+
+                copyBtn.style.display = 'block';
+                screenHint.classList.remove('opacity-0');
+                setTimeout(() => { canvas.style.pointerEvents = 'none'; }, 800);
+            } else {
+                statusMsg.innerText = `已刮開：${percent}%`;
+            }
+        }
+
+        function showGameOver() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none';
+            statusMsg.innerHTML = `
+                <div class="text-yellow-400 font-bold text-lg">您已參與過抽獎囉！🧧</div>
+                <div class="text-white text-sm mt-1">歡迎關注我們獲得更多活動資訊</div>
+            `;
+            prizeDisplay.innerText = "下次再會";
+            codeDisplay.innerText = "THANKYOU";
+            subHint.innerText = "抽獎次數已達上限";
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+        function startDraw(e) { if(attemptsLeft <= 0 && !isScratchedThisTurn) return; isDrawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; draw(e); }
+        function endDraw() { if (!isDrawing) return; isDrawing = false; checkProgress(); }
+        function draw(e) {
+            if (!isDrawing) return;
+            const p = getPos(e);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke();
+            lastX = p.x; lastY = p.y;
+        }
+
+        function copyToClipboard() {
+            const el = document.createElement("textarea"); el.value = currentPrize.code; document.body.appendChild(el);
+            el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2000);
+        }
+
+        window.onload = () => {
+            // 初始化抽獎次數
+            const savedAttempts = localStorage.getItem(STORAGE_KEY);
+            if (savedAttempts !== null) {
+                attemptsLeft = parseInt(savedAttempts);
+            }
+
+            updateAttemptsUI();
+            
+            if (attemptsLeft > 0) {
+                currentPrize = pickPrize();
+                prizeDisplay.innerText = currentPrize.name;
+                codeDisplay.innerText = currentPrize.code;
                 initCanvas();
-                createConfetti();
-            }, 250);
-        });
-        
-        window.onload = function() {
-            initCanvas();
+            } else {
+                showGameOver();
+            }
+            
             createConfetti();
         };
+
+        canvas.addEventListener('mousedown', startDraw);
+        window.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('touchstart', (e) => { if (e.target === canvas) e.preventDefault(); startDraw(e); }, { passive: false });
+        window.addEventListener('touchend', endDraw);
+        canvas.addEventListener('touchmove', (e) => { if (e.target === canvas) e.preventDefault(); draw(e); }, { passive: false });
+        window.addEventListener('resize', () => { if(attemptsLeft > 0) initCanvas(); });
     </script>
 </body>
 </html>
