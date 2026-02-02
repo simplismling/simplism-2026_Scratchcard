@@ -91,7 +91,7 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
         }
 
         .brand-name {
@@ -285,11 +285,11 @@
 
         .footer-note { margin-top: 15px; font-size: 0.65rem; color: rgba(253, 230, 138, 0.7); text-align: center; }
 
-        /* 側邊按鈕 */
+        /* 側邊按鈕 - 手機版位置更高 */
         .side-fabs {
             position: fixed;
             right: 0;
-            top: 60%;
+            top: 45%; 
             transform: translateY(-50%);
             display: flex;
             flex-direction: column; 
@@ -350,14 +350,15 @@
         }
         @media (min-width: 640px) { .modal-close { top: 15px; right: 15px; width: 32px; height: 32px; border-width: 2px; } }
 
-        /* 恢復先前的「恭喜中獎」與「標籤」樣式 */
-        .prize-announcement h4 {
+        /* 統一金色立體標題樣式 */
+        .modal-title-gold {
             font-size: 1.5rem;
             color: var(--gold);
             font-weight: 900;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             letter-spacing: 2px;
+            text-align: center;
         }
         
         .bundle-name { font-size: 1.8rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(253, 230, 138, 0.8); }
@@ -376,7 +377,7 @@
         .modal-code-value { color: #fff; font-size: 1.5rem; font-weight: 900; letter-spacing: 3px; font-family: monospace; }
         @media (min-width: 640px) { .modal-code-value { font-size: 1.7rem; } }
 
-        /* 質感質感的活動詳情按鈕 */
+        /* 質感立體按鈕樣式 */
         .btn-more-info {
             display: inline-block;
             background: linear-gradient(180deg, #fbbf24, #d97706);
@@ -393,15 +394,8 @@
             text-align: center;
         }
         
-        .btn-more-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #92400e, 0 12px 20px rgba(0,0,0,0.4);
-        }
-
-        .btn-more-info:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #92400e, 0 4px 10px rgba(0,0,0,0.3);
-        }
+        .btn-more-info:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #92400e, 0 12px 20px rgba(0,0,0,0.4); }
+        .btn-more-info:active { transform: translateY(2px); box-shadow: 0 2px 0 #92400e, 0 4px 10px rgba(0,0,0,0.3); }
 
         .btn-modal-copy {
             background: linear-gradient(180deg, #fde68a, #fbbf24);
@@ -418,7 +412,18 @@
         .btn-modal-copy:active { transform: translateY(2px); box-shadow: 0 2px 0 #92400e; }
 
         .btn-more-info-modal {
-            @extend .btn-more-info;
+            display: inline-block;
+            background: linear-gradient(180deg, #fbbf24, #d97706);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 0 #92400e, 0 8px 15px rgba(0,0,0,0.3);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-align: center;
             margin-top: 0px !important;
         }
 
@@ -428,7 +433,7 @@
         .activity-name { color: #fff; font-weight: 900; font-size: 1.1rem; margin-bottom: 4px; }
         .special-price { color: var(--gold); font-weight: 900; font-size: 1.3rem; }
 
-        /* 紅包獎項樣式 - 內容更新與標籤對齊優化 */
+        /* 紅包獎項樣式 */
         .prize-row-item {
             border-bottom: 1px solid rgba(253, 230, 138, 0.2);
             padding: 12px 10px;
@@ -445,10 +450,10 @@
             background: linear-gradient(135deg, #fbbf24, #d97706);
             color: #8c1010;
             padding: 6px 0; 
-            width: 110px; /* 固定寬度，容納「新春加碼獎」等字數較多的名稱 */
+            width: 110px; 
             border-radius: 8px; 
             font-weight: 900;
-            font-size: 0.95rem; /* 字體微調確保不換行 */
+            font-size: 0.95rem; 
             flex-shrink: 0;
             box-shadow: 0 3px 6px rgba(0,0,0,0.3); 
             text-align: center;
@@ -465,11 +470,25 @@
             width: 180px; 
         }
 
+        /* 活動詳情副標題：強制手機版不換行 */
         .activity-subtitle-highlight {
-            background: linear-gradient(135deg, #fbbf24, #d97706); color: #8c1010; padding: 10px 25px;
-            border-radius: 8px; font-weight: 900; font-size: 1.2rem; display: inline-block; margin-bottom: 25px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.3); text-align: center; border: 1px solid #b45309;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #8c1010;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 0.8rem; 
+            display: inline-block;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 1px solid #b45309;
+            white-space: nowrap; 
+            max-width: 100%;
         }
+
+        @media (min-width: 400px) { .activity-subtitle-highlight { font-size: 0.95rem; padding: 10px 20px; } }
+        @media (min-width: 640px) { .activity-subtitle-highlight { padding: 10px 25px; font-size: 1.25rem; } }
     </style>
 </head>
 <body>
@@ -494,9 +513,11 @@
                 <text x="50" y="55" font-family="Arial" font-size="10" fill="#B91C1C" text-anchor="middle" font-weight="bold">福</text>
             </svg>
             <h1 class="main-title">新春開運紅包 <i class="italic text-yellow-300">100%中獎</i></h1>
+            <!-- 恢復金元寶樣式 -->
             <svg class="title-icon" viewBox="0 0 100 100" fill="none">
                 <path d="M10 50C10 70 30 90 50 90C70 90 90 70 90 50" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
                 <path d="M10 50C10 40 25 35 50 35C75 35 90 40 90 50" stroke="#B45309" stroke-width="2" fill="#FDE68A"/>
+                <path d="M30 40C30 25 40 20 50 20C60 20 70 25 70 40" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
             </svg>
         </div>
         <p class="sub-title-3d">好運馬上來，紅包等你來刮！</p>
@@ -550,11 +571,11 @@
         <div class="side-btn" onclick="toggleRulesModal(true)">紅包獎項</div>
     </div>
 
-    <!-- 紅包獎項彈窗 - 內容已更新為指定名稱 -->
+    <!-- 紅包獎項彈窗 -->
     <div class="modal-overlay" id="rules-modal" onclick="handleOverlayClick(event, 'rules-modal')">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleRulesModal(false)">✕</div>
-            <h3 class="text-xl sm:text-2xl font-black text-yellow-200 mb-6 underline decoration-double">🧧 紅包獎項 🧧</h3>
+            <h3 class="modal-title-gold">🧧 紅包獎項 🧧</h3>
             <div class="space-y-1 pr-1 text-center">
                 <div class="prize-row-item"><span class="prize-badge">開運頭獎</span><span class="prize-text-main">現折 1000 元紅包</span></div>
                 <div class="prize-row-item"><span class="prize-badge">招財二獎</span><span class="prize-text-main">現折 588 元紅包</span></div>
@@ -573,7 +594,7 @@
         <div class="modal-content">
             <div class="modal-close" onclick="togglePrizeModal(false)">✕</div>
             <div class="prize-announcement">
-                <h4>🧧 恭喜中獎 🧧</h4>
+                <h4 class="modal-title-gold">🧧 恭喜中獎 🧧</h4>
                 <div id="bundle-info">
                     <div class="bundle-name" id="modal-bundle-name">---</div>
                     <div class="bundle-items" id="modal-bundle-items">---</div>
@@ -601,9 +622,11 @@
     <div class="modal-overlay" id="activity-modal" onclick="handleOverlayClick(event, 'activity-modal')">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleActivityModal(false)">✕</div>
-            <h3 class="text-xl sm:text-2xl font-black text-yellow-200 mb-4">🧧 春節限定活動 🧧</h3>
+            <h3 class="modal-title-gold">🧧 春節限定活動 🧧</h3>
             <div class="flex justify-center">
-                <div class="activity-subtitle-highlight">每周三中午 12 點‧限量搶購 20 組</div>
+                <div class="activity-subtitle-highlight">
+                    春節限定．每周三中午12點限量搶購20組
+                </div>
             </div>
             <div class="space-y-2 pr-1">
                 <div class="activity-item">
@@ -637,7 +660,6 @@
             { name: "除舊佈新組", items: "(洗面乳300ML+水楊酸50ML+乳霜50ML)", orig: "$3049", promo: "2666" }
         ];
 
-        // 獎項邏輯更新，移除前綴僅保留內容
         const prizes = [
             { name: "現折 1000 元紅包", chance: 0.5, code: "MA1000JG" },
             { name: "現折 588 元紅包", chance: 2, code: "MA588FW" },
