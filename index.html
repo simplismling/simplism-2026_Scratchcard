@@ -91,7 +91,7 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-8px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
         }
 
         .brand-name {
@@ -177,7 +177,7 @@
             user-select: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             border: 2px solid var(--deep-gold);
-            cursor: none; 
+            cursor: none; /* 隱藏原生游標以顯示金幣 */
         }
 
         .scratch-content {
@@ -237,7 +237,7 @@
             height: 40px;
             pointer-events: none;
             z-index: 9999;
-            display: none;
+            display: none; /* 預設隱藏，由 JS 控制 */
             transform: translate(-50%, -50%);
             filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
         }
@@ -285,7 +285,7 @@
 
         .footer-note { margin-top: 15px; font-size: 0.65rem; color: rgba(253, 230, 138, 0.7); text-align: center; }
 
-        /* 側邊按鈕 - 手機版位置更高 */
+        /* 側邊按鈕 */
         .side-fabs {
             position: fixed;
             right: 0;
@@ -470,7 +470,7 @@
             width: 180px; 
         }
 
-        /* 活動詳情副標題：強制手機版不換行 */
+        /* 活動詳情副標題 */
         .activity-subtitle-highlight {
             background: linear-gradient(135deg, #fbbf24, #d97706);
             color: #8c1010;
@@ -495,6 +495,7 @@
 
     <div class="confetti-container" id="confetti-container"></div>
     
+    <!-- 金幣游標元件 -->
     <div id="coin-cursor">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="48" fill="#B45309" />
@@ -513,7 +514,6 @@
                 <text x="50" y="55" font-family="Arial" font-size="10" fill="#B91C1C" text-anchor="middle" font-weight="bold">福</text>
             </svg>
             <h1 class="main-title">新春開運紅包 <i class="italic text-yellow-300">100%中獎</i></h1>
-            <!-- 恢復金元寶樣式 -->
             <svg class="title-icon" viewBox="0 0 100 100" fill="none">
                 <path d="M10 50C10 70 30 90 50 90C70 90 90 70 90 50" stroke="#B45309" stroke-width="2" fill="#FBBF24"/>
                 <path d="M10 50C10 40 25 35 50 35C75 35 90 40 90 50" stroke="#B45309" stroke-width="2" fill="#FDE68A"/>
@@ -632,22 +632,22 @@
                 <div class="activity-item">
                     <span class="activity-date">2/4(三)</span>
                     <div class="activity-name">傳明酸50ML 3入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white">原價2250</span><span class="special-price">優惠價$1800</span></div>
+                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2250</span><span class="special-price">優惠價$1800</span></div>
                 </div>
                 <div class="activity-item">
                     <span class="activity-date">2/11(三)</span>
                     <div class="activity-name">淨荳精華50ML 3入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white">原價2100</span><span class="special-price">優惠價$1680</span></div>
+                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2100</span><span class="special-price">優惠價$1680</span></div>
                 </div>
                 <div class="activity-item">
                     <span class="activity-date">2/18(三)</span>
                     <div class="activity-name">B5修護乳50ML 3入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white">原價2250</span><span class="special-price">優惠價$1800</span></div>
+                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2250</span><span class="special-price">優惠價$1800</span></div>
                 </div>
                 <div class="activity-item">
                     <span class="activity-date">2/25(三)</span>
                     <div class="activity-name">修復乳霜50ML 2入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white">原價3598</span><span class="special-price">優惠價$2878</span></div>
+                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價3598</span><span class="special-price">優惠價$2878</span></div>
                 </div>
             </div>
             <a href="https://www.simplism.com.tw/products/product/" target="_blank" class="btn-more-info">前往活動頁面 ▹▹</a>
@@ -657,7 +657,7 @@
     <script>
         const winningBundles = [
             { name: "好運美肌組", items: "(傳明酸50ML+A醇50ML+B5乳50ML)", orig: "$2999", promo: "2666" },
-            { name: "除舊佈新組", items: "(洗面乳300ML+水楊酸50ML+乳霜50ML)", orig: "$3049", promo: "2666" }
+            { name: "金燦煥顏組", items: "(洗面乳300ML+水楊酸50ML+乳霜50ML)", orig: "$3049", promo: "2666" }
         ];
 
         const prizes = [
@@ -773,12 +773,44 @@
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top, pageX: clientX, pageY: clientY };
+            return { x: clientX - rect.left, y: clientY - rect.top, pagePageX: clientX, pagePageY: clientY };
         }
 
-        function startDraw(e) { if(attemptsLeft <= 0 && !isScratchedThisTurn) return; isDrawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; coin.style.display = 'block'; coin.style.left = p.pageX + 'px'; coin.style.top = p.pageY + 'px'; draw(e); }
-        function endDraw() { if (!isDrawing) return; isDrawing = false; coin.style.display = 'none'; checkProgress(); }
-        function draw(e) { if (!isDrawing) return; const p = getPos(e); coin.style.left = p.pageX + 'px'; coin.style.top = p.pageY + 'px'; ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = window.innerWidth < 640 ? 25 : 35; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke(); lastX = p.x; lastY = p.y; }
+        // 當滑鼠移動時，定位金幣位置
+        function handleCursorMove(e) {
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            coin.style.left = clientX + 'px';
+            coin.style.top = clientY + 'px';
+        }
+
+        function startDraw(e) { 
+            if(attemptsLeft <= 0 && !isScratchedThisTurn) return; 
+            isDrawing = true; 
+            const p = getPos(e); lastX = p.x; lastY = p.y; 
+            handleCursorMove(e);
+            draw(e); 
+        }
+
+        function endDraw() { 
+            if (!isDrawing) return; 
+            isDrawing = false; 
+            checkProgress(); 
+        }
+
+        function draw(e) { 
+            if (!isDrawing) return; 
+            const p = getPos(e); 
+            handleCursorMove(e);
+            ctx.globalCompositeOperation = 'destination-out'; 
+            ctx.lineWidth = window.innerWidth < 640 ? 25 : 35; 
+            ctx.lineCap = 'round'; 
+            ctx.beginPath(); 
+            ctx.moveTo(lastX, lastY); 
+            ctx.lineTo(p.x, p.y); 
+            ctx.stroke(); 
+            lastX = p.x; lastY = p.y; 
+        }
 
         function copyToClipboard(elementId, btnId) {
             const codeText = document.getElementById(elementId).innerText;
@@ -811,9 +843,30 @@
             createConfetti();
         };
 
-        canvas.addEventListener('mousedown', startDraw); window.addEventListener('mouseup', endDraw); canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('touchstart', (e) => { if (e.target === canvas) e.preventDefault(); startDraw(e); }, { passive: false });
-        window.addEventListener('touchend', endDraw); canvas.addEventListener('touchmove', (e) => { if (e.target === canvas) e.preventDefault(); draw(e); }, { passive: false });
+        // 畫布滑鼠事件：控制金幣顯示與移動
+        canvas.addEventListener('mouseenter', () => { if (!isScratchedThisTurn) coin.style.display = 'block'; });
+        canvas.addEventListener('mouseleave', () => { coin.style.display = 'none'; });
+        canvas.addEventListener('mousemove', (e) => { handleCursorMove(e); draw(e); });
+        
+        canvas.addEventListener('mousedown', startDraw); 
+        window.addEventListener('mouseup', endDraw); 
+        
+        // 觸控事件
+        canvas.addEventListener('touchstart', (e) => { 
+            if (e.target === canvas) e.preventDefault(); 
+            coin.style.display = 'block'; 
+            startDraw(e); 
+        }, { passive: false });
+        window.addEventListener('touchend', () => {
+            coin.style.display = 'none';
+            endDraw();
+        }); 
+        canvas.addEventListener('touchmove', (e) => { 
+            if (e.target === canvas) e.preventDefault(); 
+            handleCursorMove(e);
+            draw(e); 
+        }, { passive: false });
+
         window.addEventListener('resize', () => { if(attemptsLeft > 0 && !isScratchedThisTurn) initCanvas(); });
     </script>
 </body>
