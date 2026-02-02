@@ -29,6 +29,34 @@
             position: relative;
         }
 
+        /* 音樂切換按鈕 */
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(185, 28, 28, 0.8);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle.playing {
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         /* 金蔥彩帶容器 */
         .confetti-container {
             position: fixed;
@@ -83,9 +111,6 @@
             animation: bounce 2s ease-in-out infinite;
             flex-shrink: 0;
         }
-
-        .icon-left { animation-delay: 0s; }
-        .icon-right { animation-delay: 1s; }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
@@ -164,18 +189,6 @@
             padding-bottom: 10px;
         }
 
-        .attempts-badge {
-            background: var(--gold);
-            color: #8c1010;
-            padding: 2px 10px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 900;
-            display: inline-block;
-            margin-top: 5px;
-            border: 1px solid #8c1010;
-        }
-
         .scratch-area-outer {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
@@ -193,6 +206,7 @@
             user-select: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             border: 3px solid var(--deep-gold);
+            cursor: none; 
         }
 
         .scratch-content {
@@ -234,51 +248,41 @@
             top: 0;
             left: 0;
             z-index: 2;
-            cursor: crosshair;
             touch-action: none;
         }
 
-        .btn-action {
-            width: 100%;
-            margin-top: 20px;
-            padding: 12px;
-            background: linear-gradient(180deg, #f59e0b, #d97706);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 6px 0px #92400e, 0 10px 20px rgba(0,0,0,0.3);
-            transition: all 0.1s;
-        }
-
-        .btn-action:disabled {
-            background: #4b5563;
-            box-shadow: 0 6px 0px #1f2937;
-            cursor: not-allowed;
-            filter: grayscale(1);
+        /* 金幣游標 */
+        #coin-cursor {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
         }
 
         .copy-btn {
-            background: var(--gold);
+            background: linear-gradient(180deg, var(--gold) 0%, var(--deep-gold) 100%);
             color: #8c1010;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-top: 10px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            margin-top: 15px;
             cursor: pointer;
             display: none; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.2s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.5);
+            border: 2px solid #8c1010;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
         }
 
-        .copy-btn:active { transform: scale(0.95); }
+        .copy-btn:active { transform: scale(0.95) translateY(2px); }
 
         .status-msg { text-align: center; margin-top: 12px; color: var(--gold); font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 0.9rem; min-height: 3em; display: flex; flex-direction: column; justify-content: center; }
 
-        /* 活動規則區塊 */
         .rules-section {
             margin-top: 30px;
             padding: 15px 8px;
@@ -294,7 +298,6 @@
 
         @media (max-width: 480px) { .rules-list { font-size: 0.72rem; white-space: normal; padding-left: 1rem; } }
 
-        /* 側邊按鈕 */
         .side-fabs {
             position: fixed;
             right: 0;
@@ -338,22 +341,46 @@
         }
 
         .prize-item-row { display: flex; align-items: center; justify-content: center; padding: 12px 15px; border-bottom: 1px solid rgba(253, 230, 138, 0.2); color: #fff; text-align: center; }
-        .prize-item-row:last-child { border-bottom: none; }
-
+        
         .footer-note { margin-top: 20px; font-size: 0.7rem; color: rgba(253, 230, 138, 0.7); text-align: center; line-height: 1.5; }
     </style>
 </head>
-<body>
+<body onclick="handleFirstInteraction()">
 
     <div class="confetti-container" id="confetti-container"></div>
+    
+    <!-- 背景音樂控制按鈕 -->
+    <div id="music-btn" class="music-toggle" onclick="toggleMusic(event)">
+        <svg id="music-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold);">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+    </div>
 
-    <!-- 側邊按鈕 -->
+    <!-- 背景音樂元素 -->
+    <audio id="bg-music" loop preload="auto">
+        <!-- 更新音樂連結為指定網址 -->
+        <source src="https://zh.500audio.com/track/happy-chinese-new-year_1068713" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/audio/2024/01/16/audio_0313a3a1f4.mp3" type="audio/mpeg"> <!-- 備用連結以防網頁頁面無法直接播放 -->
+    </audio>
+
+    <!-- 金幣游標 -->
+    <div id="coin-cursor">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" fill="#B45309" />
+            <circle cx="50" cy="50" r="45" fill="#FBBF24" stroke="#D97706" stroke-width="2" />
+            <circle cx="50" cy="50" r="35" fill="none" stroke="#D97706" stroke-width="1" stroke-dasharray="2 2" />
+            <text x="50" y="65" font-family="Arial" font-size="40" fill="#B45309" text-anchor="middle" font-weight="bold">福</text>
+            <path d="M30 30 Q50 10 70 30" fill="none" stroke="white" stroke-width="3" opacity="0.4" />
+        </svg>
+    </div>
+
     <div class="side-fabs">
         <a href="https://www.simplism.com.tw/" target="_blank" class="side-btn">馬上購物</a>
         <div class="side-btn" onclick="toggleModal(true)">活動獎品</div>
     </div>
 
-    <!-- 獎品清單視窗 -->
     <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleModal(false)">✕</div>
@@ -394,7 +421,6 @@
     <main class="activity-card">
         <div class="card-header">
             <h2 class="text-xl sm:text-3xl font-bold text-yellow-200">新春好運刮刮樂</h2>
-            <div class="attempts-badge" id="attempts-badge">剩餘次數：2</div>
             <p class="text-yellow-100 text-opacity-80 text-xs sm:text-sm mt-1" id="sub-hint">請在下方區域刮開獎項</p>
         </div>
 
@@ -414,17 +440,15 @@
 
         <div class="status-msg" id="status-msg">已刮開：0%</div>
         
-        <div id="result-actions" class="flex flex-col items-center min-h-[60px]">
+        <div id="result-actions" class="flex flex-col items-center min-h-[80px]">
             <button class="copy-btn" id="copy-btn" onclick="copyToClipboard()">點我複製折扣碼</button>
-            <p id="screenshot-hint" class="text-white text-xs mt-2 opacity-0 transition-opacity">請截圖保存！使用期限至2月28日止</p>
+            <p id="screenshot-hint" class="text-white text-xs mt-3 opacity-0 transition-opacity">請截圖保存！使用期限至2月28日止</p>
         </div>
 
-        <button class="btn-action" id="reset-btn" onclick="resetGame()">再刮一張</button>
-        
         <div class="rules-section">
             <div class="rules-title"><span>🧧</span>【活動規則】</div>
             <ul class="rules-list">
-                <li>限刮二次，單筆限使用一組活動字串，全館滿千皆可使用。</li>
+                <li>限刮一次，單筆限使用一組活動字串，全館滿千皆可使用。</li>
                 <li>活動字串有效期限至2026年02月28日（六）23:59為止。</li>
                 <li>活動字串優惠僅限於Simplism簡單保養官網登入會員使用。</li>
                 <li>使用時須於結帳頁面『活動字串』欄位輸入享優惠好禮，逾期無效。</li>
@@ -440,7 +464,7 @@
         const prizes = [
             { name: "現折66元", chance: 12, code: "MA66HA" },
             { name: "現折88元", chance: 20, code: "MA88SP" },
-            { name: "現折168元", chance: 25, code: "MA128QX" },
+            { name: "現折168元", chance: 25, code: "MA168QX" },
             { name: "現折188元", chance: 23.5, code: "MA188MB" },
             { name: "現折288元", chance: 9, code: "MA288LO" },
             { name: "現折588元", chance: 2, code: "MA588FW" },
@@ -449,20 +473,54 @@
         ];
 
         let currentPrize = null;
-        let attemptsLeft = 2;
+        let attemptsLeft = 1;
         let isScratchedThisTurn = false;
         let isDrawing = false;
         let lastX, lastY;
         let copyTimer = null;
+        let hasInteracted = false;
         const brushSize = window.innerWidth < 640 ? 25 : 35;
 
         const STORAGE_KEY_ATTEMPTS = 'simplism_scratch_attempts_2026';
         const STORAGE_KEY_LAST_PRIZE_NAME = 'simplism_last_prize_name';
         const STORAGE_KEY_LAST_PRIZE_CODE = 'simplism_last_prize_code';
 
+        const bgMusic = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+
         function toggleModal(show) { document.getElementById('modal-overlay').style.display = show ? 'flex' : 'none'; }
         function handleOverlayClick(e) { if (e.target.id === 'modal-overlay') toggleModal(false); }
 
+        function toggleMusic(e) {
+            if (e) e.stopPropagation();
+            if (bgMusic.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
+        }
+
+        function playMusic() {
+            bgMusic.play().then(() => {
+                musicBtn.classList.add('playing');
+            }).catch(err => {
+                console.log("Autoplay blocked by browser");
+            });
+        }
+
+        function pauseMusic() {
+            bgMusic.pause();
+            musicBtn.classList.remove('playing');
+        }
+
+        function handleFirstInteraction() {
+            if (!hasInteracted) {
+                hasInteracted = true;
+                playMusic();
+            }
+        }
+
+        // 金蔥彩帶函式補回
         function createConfetti() {
             const container = document.getElementById('confetti-container');
             const colors = ['#fde68a', '#fbbf24', '#f59e0b', '#ef4444', '#ffffff'];
@@ -486,9 +544,8 @@
         const codeDisplay = document.getElementById('code-display');
         const copyBtn = document.getElementById('copy-btn');
         const screenHint = document.getElementById('screenshot-hint');
-        const resetBtn = document.getElementById('reset-btn');
-        const attemptsBadge = document.getElementById('attempts-badge');
         const subHint = document.getElementById('sub-hint');
+        const coin = document.getElementById('coin-cursor');
 
         function pickPrize() {
             const random = Math.random() * 100;
@@ -504,97 +561,46 @@
             const rect = container.getBoundingClientRect();
             canvas.width = rect.width - 6;
             canvas.height = rect.height - 6;
-
             ctx.globalCompositeOperation = 'source-over';
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
             gradient.addColorStop(0, '#d1d5db'); gradient.addColorStop(0.5, '#9ca3af'); gradient.addColorStop(1, '#4b5563');
             ctx.fillStyle = gradient; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             for(let i=0; i<150; i++) {
                 ctx.fillStyle = i % 10 === 0 ? '#fbbf24' : 'rgba(255,255,255,0.1)';
-                ctx.beginPath();
-                ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5, 0, Math.PI*2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5, 0, Math.PI*2); ctx.fill();
             }
-
             const fontSize = Math.min(canvas.width / 12, 18);
             ctx.font = `bold ${fontSize}px "Microsoft JhengHei"`;
             ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
             ctx.textAlign = 'center';
             ctx.fillText('馬 上 刮 開 即 中 獎', canvas.width/2, canvas.height/2 + (fontSize/3));
-            
             canvas.style.opacity = '1';
             canvas.style.pointerEvents = 'auto';
             isScratchedThisTurn = false;
         }
 
-        function updateAttemptsUI() {
-            attemptsBadge.innerText = `剩餘次數：${attemptsLeft}`;
-            if (attemptsLeft <= 0) {
-                resetBtn.disabled = true;
-                resetBtn.innerText = "抽獎次數已用完";
-            }
-        }
-
-        function resetGame() {
-            if (attemptsLeft <= 0) return;
-            
-            if (copyTimer) {
-                clearTimeout(copyTimer);
-                copyTimer = null;
-            }
-            copyBtn.innerText = "點我複製折扣碼";
-            copyBtn.style.background = ""; 
-            copyBtn.style.color = "";
-            copyBtn.style.display = 'none';
-
-            screenHint.classList.add('opacity-0');
-            statusMsg.innerText = "已刮開：0%";
-
-            canvas.style.transition = 'none';
-            initCanvas();
-
-            setTimeout(() => {
-                currentPrize = pickPrize();
-                prizeDisplay.innerText = currentPrize.name;
-                codeDisplay.innerText = currentPrize.code;
-            }, 50);
-        }
-
         function checkProgress() {
             if (isScratchedThisTurn) return;
-
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const pixels = imageData.data;
             let transparentCount = 0;
             let totalSampled = 0;
-
-            for (let i = 3; i < pixels.length; i += 32) { 
-                totalSampled++;
-                if (pixels[i] === 0) transparentCount++; 
-            }
-            
+            for (let i = 3; i < pixels.length; i += 32) { totalSampled++; if (pixels[i] === 0) transparentCount++; }
             let percent = Math.round((transparentCount / totalSampled) * 100);
-
             if (percent > 45) {
                 isScratchedThisTurn = true;
                 attemptsLeft--;
-                
                 localStorage.setItem(STORAGE_KEY_ATTEMPTS, attemptsLeft);
                 localStorage.setItem(STORAGE_KEY_LAST_PRIZE_NAME, currentPrize.name);
                 localStorage.setItem(STORAGE_KEY_LAST_PRIZE_CODE, currentPrize.code);
-
-                updateAttemptsUI();
-
                 canvas.style.transition = 'opacity 0.8s ease-out';
                 canvas.style.opacity = '0';
-                
+                coin.style.display = 'none';
                 statusMsg.innerHTML = `
                     <div class="text-white font-bold text-lg">已刮開：100%</div>
                     <div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>
                 `;
-
                 copyBtn.style.display = 'block';
                 screenHint.classList.remove('opacity-0');
                 setTimeout(() => { canvas.style.pointerEvents = 'none'; }, 800);
@@ -606,21 +612,18 @@
         function restoreFinalState() {
             const savedPrizeName = localStorage.getItem(STORAGE_KEY_LAST_PRIZE_NAME);
             const savedPrizeCode = localStorage.getItem(STORAGE_KEY_LAST_PRIZE_CODE);
-
             if (savedPrizeName && savedPrizeCode) {
                 currentPrize = { name: savedPrizeName, code: savedPrizeCode };
                 prizeDisplay.innerText = savedPrizeName;
                 codeDisplay.innerText = savedPrizeCode;
                 canvas.style.display = 'none';
-                
                 statusMsg.innerHTML = `
                     <div class="text-white font-bold text-lg">已刮開：100%</div>
                     <div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>
                 `;
-                
                 copyBtn.style.display = 'block';
                 screenHint.classList.remove('opacity-0');
-                subHint.innerText = "抽獎次數已達上限";
+                subHint.innerText = "刮獎次數已達上限";
             }
         }
 
@@ -628,13 +631,31 @@
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top };
+            return { x: clientX - rect.left, y: clientY - rect.top, pageX: clientX, pageY: clientY };
         }
-        function startDraw(e) { isDrawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; draw(e); }
-        function endDraw() { if (!isDrawing) return; isDrawing = false; checkProgress(); }
+
+        function updateCoinPos(pageX, pageY) {
+            coin.style.left = pageX + 'px';
+            coin.style.top = pageY + 'px';
+        }
+
+        function startDraw(e) { 
+            handleFirstInteraction(); 
+            if(attemptsLeft <= 0 && !isScratchedThisTurn) return; 
+            isDrawing = true; 
+            const p = getPos(e); 
+            lastX = p.x; lastY = p.y; 
+            coin.style.display = 'block';
+            updateCoinPos(p.pageX, p.pageY);
+            draw(e); 
+        }
+
+        function endDraw() { if (!isDrawing) return; isDrawing = false; coin.style.display = 'none'; checkProgress(); }
+
         function draw(e) {
             if (!isDrawing) return;
             const p = getPos(e);
+            updateCoinPos(p.pageX, p.pageY);
             ctx.globalCompositeOperation = 'destination-out';
             ctx.lineWidth = brushSize;
             ctx.lineCap = 'round';
@@ -645,19 +666,14 @@
         function copyToClipboard() {
             const el = document.createElement("textarea"); el.value = currentPrize.code; document.body.appendChild(el);
             el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            
             if (copyTimer) clearTimeout(copyTimer);
-
             const btn = document.getElementById('copy-btn');
             const originalText = "點我複製折扣碼";
             btn.innerText = "已複製折扣碼！";
-            btn.style.background = "#22c55e"; 
-            btn.style.color = "white";
-
+            btn.style.background = "#22c55e"; btn.style.color = "white";
             copyTimer = setTimeout(() => {
                 btn.innerText = originalText;
-                btn.style.background = ""; 
-                btn.style.color = "";
+                btn.style.background = ""; btn.style.color = "";
                 copyTimer = null;
             }, 500);
         }
@@ -667,9 +683,6 @@
             if (savedAttempts !== null) {
                 attemptsLeft = parseInt(savedAttempts);
             }
-
-            updateAttemptsUI();
-            
             if (attemptsLeft > 0) {
                 currentPrize = pickPrize();
                 prizeDisplay.innerText = currentPrize.name;
@@ -678,8 +691,8 @@
             } else {
                 restoreFinalState();
             }
-            
             createConfetti();
+            playMusic();
         };
 
         canvas.addEventListener('mousedown', startDraw);
