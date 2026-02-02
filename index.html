@@ -29,34 +29,6 @@
             position: relative;
         }
 
-        /* 音樂切換按鈕 */
-        .music-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            background: rgba(185, 28, 28, 0.8);
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .music-toggle.playing {
-            animation: rotate 4s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
         /* 金蔥彩帶容器 */
         .confetti-container {
             position: fixed;
@@ -127,7 +99,6 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
         }
 
-        /* 主標題強化立體效果 */
         .main-title {
             font-size: 2.2rem;
             font-weight: 900;
@@ -143,7 +114,6 @@
             line-height: 1.2;
         }
 
-        /* 副標題立體效果 */
         .sub-title-3d {
             color: var(--gold);
             font-weight: 900;
@@ -221,27 +191,35 @@
             justify-content: center;
             background: radial-gradient(circle, #b91c1c, #8c1010);
             z-index: 1;
-            padding: 10px;
+            padding: 15px;
             opacity: 1;
         }
 
-        .prize-label { font-size: 0.9rem; color: var(--gold); font-weight: bold; letter-spacing: 2px; margin-bottom: 5px; }
-        .prize-value { font-size: 1.6rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(253, 230, 138, 0.8); text-align: center; margin-bottom: 8px; }
+        .prize-label { font-size: 1.1rem; color: var(--gold); font-weight: bold; letter-spacing: 3px; margin-bottom: 8px; }
+        .prize-value { font-size: 1.6rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(253, 230, 138, 0.8), 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-bottom: 15px; }
 
         .code-container {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 5px 15px;
-            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 25px;
+            border-radius: 8px;
             border: 1px dashed var(--gold);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
+            gap: 4px;
             margin-top: 5px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        .code-label { font-size: 0.7rem; color: var(--gold); font-weight: 300; }
-        .code-text { font-family: monospace; font-size: 1.4rem; color: #fff; font-weight: bold; letter-spacing: 2px; }
+        .code-label { font-size: 0.85rem; color: var(--gold); font-weight: bold; letter-spacing: 1px; }
+        .code-text { font-family: 'Courier New', Courier, monospace; font-size: 1.8rem; color: #fff; font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 8px rgba(255,255,255,0.4); }
+
+        @media (max-width: 480px) {
+            .prize-label { font-size: 0.9rem; }
+            .prize-value { font-size: 1.3rem; }
+            .code-text { font-size: 1.5rem; }
+            .code-container { padding: 8px 15px; }
+        }
 
         #scratch-canvas {
             position: absolute;
@@ -263,12 +241,13 @@
             filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
         }
 
+        /* 按鈕樣式 */
         .copy-btn {
             background: linear-gradient(180deg, var(--gold) 0%, var(--deep-gold) 100%);
             color: #8c1010;
-            padding: 12px 28px;
+            padding: 14px 32px;
             border-radius: 50px;
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 900;
             margin-top: 15px;
             cursor: pointer;
@@ -281,10 +260,10 @@
 
         .copy-btn:active { transform: scale(0.95) translateY(2px); }
 
-        .status-msg { text-align: center; margin-top: 12px; color: var(--gold); font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 0.9rem; min-height: 3em; display: flex; flex-direction: column; justify-content: center; }
+        .status-msg { text-align: center; margin-top: 10px; color: var(--gold); font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 0.9rem; min-height: 1.5em; display: flex; flex-direction: column; justify-content: center; }
 
         .rules-section {
-            margin-top: 30px;
+            margin-top: 15px;
             padding: 15px 8px;
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(253, 230, 138, 0.3);
@@ -296,8 +275,9 @@
         .rules-title { color: var(--gold); font-weight: bold; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; padding-left: 5px; }
         .rules-list { color: rgba(255, 255, 255, 0.95); font-size: 0.78rem; line-height: 1.8; padding-left: 1.2rem; list-style-type: disc; white-space: nowrap; }
 
-        @media (max-width: 480px) { .rules-list { font-size: 0.72rem; white-space: normal; padding-left: 1rem; } }
+        .footer-note { margin-top: 20px; font-size: 0.7rem; color: rgba(253, 230, 138, 0.7); text-align: center; line-height: 1.5; }
 
+        /* 側邊按鈕 */
         .side-fabs {
             position: fixed;
             right: 0;
@@ -314,58 +294,217 @@
             cursor: pointer; box-shadow: -2px 2px 10px rgba(0,0,0,0.3); letter-spacing: 4px;
             transition: all 0.3s; border: 2px solid #7c0b0b; border-right: none;
             text-decoration: none; display: block; font-size: 14px;
+            position: relative;
         }
 
         .side-btn:hover { padding-right: 20px; background: linear-gradient(to left, #fde68a, #fbbf24); transform: translateX(-10px); }
-        .side-btn::before { content: '▶'; position: absolute; left: -15px; top: 50%; transform: translateY(-50%); font-size: 10px; opacity: 0; transition: all 0.3s; }
-        .side-btn:hover::before { opacity: 1; left: 2px; }
 
+        /* 彈跳視窗樣式 */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none;
             justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px); padding: 20px;
         }
 
         .modal-content {
-            background: #b91c1c; width: 100%; max-width: 450px; border: 4px solid var(--deep-gold);
-            border-radius: 20px; padding: 30px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: modalPop 0.3s ease-out;
+            background: #b91c1c; width: 100%; max-width: 480px; border: 4px solid var(--deep-gold);
+            border-radius: 24px; padding: 40px 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            text-align: center;
         }
 
-        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes modalPop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .modal-close {
-            position: absolute; top: 10px; right: 10px; width: 30px; height: 30px;
+            position: absolute; top: 15px; right: 15px; width: 32px; height: 32px;
             background: var(--gold); color: #8c1010; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             font-weight: bold; cursor: pointer; border: 2px solid #8c1010;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .modal-close:hover { transform: rotate(90deg); }
+
+        /* 彈窗中獎詳情樣式 */
+        .prize-announcement h4 {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: 900;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+        
+        .bundle-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-top: 5px;
+            text-shadow: 0 0 10px rgba(253, 230, 138, 0.8);
+        }
+        .bundle-items {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            margin: 10px 0;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+        .bundle-pricing {
+            margin-bottom: 20px;
+        }
+        .bundle-pricing .orig {
+            text-decoration: line-through;
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        .bundle-pricing .promo {
+            color: var(--gold);
+            font-size: 2rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .prize-item-row { display: flex; align-items: center; justify-content: center; padding: 12px 15px; border-bottom: 1px solid rgba(253, 230, 138, 0.2); color: #fff; text-align: center; }
+        .modal-code-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed var(--gold);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .modal-code-label { color: var(--gold); font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; }
+        .modal-code-value { color: #fff; font-size: 1.6rem; font-weight: 900; letter-spacing: 3px; font-family: monospace; }
+
+        .btn-modal-copy {
+            background: linear-gradient(180deg, #fde68a, #fbbf24);
+            color: #8c1010;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 0 #92400e;
+            transition: all 0.1s;
+        }
+        .btn-modal-copy:active { transform: translateY(2px); box-shadow: 0 2px 0 #92400e; }
+
+        /* 活動詳情按鈕 (共用樣式) */
+        .btn-more-info {
+            display: inline-block;
+            background: linear-gradient(180deg, #fbbf24, #d97706);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 0 #92400e, 0 8px 15px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        .btn-more-info:active { transform: translateY(2px); box-shadow: 0 2px 0 #92400e; }
         
-        .footer-note { margin-top: 20px; font-size: 0.7rem; color: rgba(253, 230, 138, 0.7); text-align: center; line-height: 1.5; }
+        #main-more-info-btn { margin-top: 15px; }
+
+        /* 活動詳情清單樣式 - 內容文字放大強化清晰度 */
+        .activity-item {
+            border-bottom: 1px solid rgba(253, 230, 138, 0.2);
+            padding: 18px 0; /* 增加項目間距 */
+            text-align: left;
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-date {
+            background: var(--gold);
+            color: #8c1010;
+            padding: 4px 12px; /* 加大標籤內距 */
+            border-radius: 6px;
+            font-size: 0.9rem; /* 日期放大 */
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .activity-name { 
+            color: #fff; 
+            font-weight: 900; 
+            font-size: 1.2rem; /* 名稱放大 */
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+        .original-price { 
+            text-decoration: line-through; 
+            opacity: 0.7; 
+            font-size: 0.9rem; /* 原價微調放大 */
+            margin-right: 12px; 
+            color: #fff; 
+        }
+        .special-price { 
+            color: var(--gold); 
+            font-weight: 900; 
+            font-size: 1.4rem; /* 優惠價顯著放大 */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* 紅包獎項樣式 */
+        .prize-row-item {
+            border-bottom: 1px solid rgba(253, 230, 138, 0.2);
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: background 0.3s;
+        }
+        .prize-row-item:hover { background: rgba(253, 230, 138, 0.05); }
+        .prize-row-item:last-child { border-bottom: none; }
+        
+        .prize-badge {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #8c1010;
+            padding: 6px 0; 
+            width: 105px;  
+            border-radius: 8px; 
+            font-weight: 900;
+            font-size: 1.05rem; 
+            flex-shrink: 0;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3); 
+            text-align: center;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+        
+        .prize-text-main {
+            color: #fff;
+            font-size: 1.3rem; 
+            font-weight: 900;
+            text-align: left;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            width: 180px; 
+        }
+
+        /* 活動副標題樣式 */
+        .activity-subtitle-highlight {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #8c1010;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            display: inline-block;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            letter-spacing: 0.5px;
+            text-align: center;
+            border: 1px solid #b45309;
+        }
     </style>
 </head>
-<body onclick="handleFirstInteraction()">
+<body>
 
     <div class="confetti-container" id="confetti-container"></div>
     
-    <!-- 背景音樂控制按鈕 -->
-    <div id="music-btn" class="music-toggle" onclick="toggleMusic(event)">
-        <svg id="music-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold);">
-            <path d="M9 18V5l12-2v13"></path>
-            <circle cx="6" cy="18" r="3"></circle>
-            <circle cx="18" cy="16" r="3"></circle>
-        </svg>
-    </div>
-
-    <!-- 背景音樂元素 -->
-    <audio id="bg-music" loop preload="auto">
-        <!-- 更新音樂連結為指定網址 -->
-        <source src="https://zh.500audio.com/track/happy-chinese-new-year_1068713" type="audio/mpeg">
-        <source src="https://cdn.pixabay.com/audio/2024/01/16/audio_0313a3a1f4.mp3" type="audio/mpeg"> <!-- 備用連結以防網頁頁面無法直接播放 -->
-    </audio>
-
-    <!-- 金幣游標 -->
+    <!-- 金幣示意 -->
     <div id="coin-cursor">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="48" fill="#B45309" />
@@ -374,29 +513,6 @@
             <text x="50" y="65" font-family="Arial" font-size="40" fill="#B45309" text-anchor="middle" font-weight="bold">福</text>
             <path d="M30 30 Q50 10 70 30" fill="none" stroke="white" stroke-width="3" opacity="0.4" />
         </svg>
-    </div>
-
-    <div class="side-fabs">
-        <a href="https://www.simplism.com.tw/" target="_blank" class="side-btn">馬上購物</a>
-        <div class="side-btn" onclick="toggleModal(true)">活動獎品</div>
-    </div>
-
-    <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
-        <div class="modal-content">
-            <div class="modal-close" onclick="toggleModal(false)">✕</div>
-            <h3 class="text-2xl font-black text-center text-yellow-200 mb-6 underline decoration-double">🧧 獎項清單 🧧</h3>
-            <div class="space-y-0 max-h-[60vh] overflow-y-auto pr-2">
-                <div class="prize-item-row"><span>現折1000元</span></div>
-                <div class="prize-item-row"><span>現折588元</span></div>
-                <div class="prize-item-row"><span>玻尿酸15ML</span></div>
-                <div class="prize-item-row"><span>現折288元</span></div>
-                <div class="prize-item-row"><span>現折188元</span></div>
-                <div class="prize-item-row"><span>現折168元</span></div>
-                <div class="prize-item-row"><span>現折88元</span></div>
-                <div class="prize-item-row"><span>現折66元</span></div>
-            </div>
-            <p class="text-center text-yellow-100 text-xs mt-6 opacity-80">* 實際獎項內容依官網公告為準 *</p>
-        </div>
     </div>
 
     <header class="header-section">
@@ -440,8 +556,11 @@
 
         <div class="status-msg" id="status-msg">已刮開：0%</div>
         
-        <div id="result-actions" class="flex flex-col items-center min-h-[80px]">
-            <button class="copy-btn" id="copy-btn" onclick="copyToClipboard()">點我複製折扣碼</button>
+        <div id="result-actions" class="flex flex-col items-center min-h-0">
+            <button class="copy-btn" id="copy-btn" onclick="copyToClipboard('code-display', 'copy-btn')">點我複製活動字串</button>
+            <a href="https://www.simplism.com.tw/products/product/" target="_blank" class="btn-more-info" id="main-more-info-btn" style="display: none;">
+                更多新春活動詳情 ▹▹
+            </a>
             <p id="screenshot-hint" class="text-white text-xs mt-3 opacity-0 transition-opacity">請截圖保存！使用期限至2月28日止</p>
         </div>
 
@@ -454,75 +573,155 @@
                 <li>使用時須於結帳頁面『活動字串』欄位輸入享優惠好禮，逾期無效。</li>
             </ul>
         </div>
-
-        <div class="footer-note">
-            * 本活動辦法最終解釋權歸Simplism簡單保養所有 *
-        </div>
+        <div class="footer-note">* 本活動辦法最終解釋權歸Simplism簡單保養所有 *</div>
     </main>
 
+    <div class="side-fabs">
+        <div class="side-btn" onclick="toggleActivityModal(true)">活動詳情</div>
+        <div id="prize-detail-btn" class="side-btn" onclick="togglePrizeModal(true)" style="display: none;">中獎詳情</div>
+        <div class="side-btn" onclick="toggleRulesModal(true)">紅包獎項</div>
+    </div>
+
+    <!-- 紅包獎項彈窗 -->
+    <div class="modal-overlay" id="rules-modal" onclick="handleOverlayClick(event, 'rules-modal')">
+        <div class="modal-content">
+            <div class="modal-close" onclick="toggleRulesModal(false)">✕</div>
+            <h3 class="text-2xl font-black text-center text-yellow-200 mb-6 underline decoration-double">🧧 紅包獎項 🧧</h3>
+            <div class="space-y-1 max-h-[60vh] overflow-y-auto pr-2 text-center">
+                <div class="prize-row-item">
+                    <span class="prize-badge">開運頭獎</span>
+                    <span class="prize-text-main">現折 1000 元紅包</span>
+                </div>
+                <div class="prize-row-item">
+                    <span class="prize-badge">招財二獎</span>
+                    <span class="prize-text-main">現折 588 元紅包</span>
+                </div>
+                <div class="prize-row-item">
+                    <span class="prize-badge">吉祥三獎</span>
+                    <span class="prize-text-main">現折 288 元紅包</span>
+                </div>
+                <div class="prize-row-item">
+                    <span class="prize-badge">好運四獎</span>
+                    <span class="prize-text-main">現折 188 元紅包</span>
+                </div>
+                <div class="prize-row-item">
+                    <span class="prize-badge">賀歲五獎</span>
+                    <span class="prize-text-main">現折 168 元紅包</span>
+                </div>
+                <div class="prize-row-item">
+                    <span class="prize-badge">福氣六獎</span>
+                    <span class="prize-text-main">現折 88 元紅包</span>
+                </div>
+                <div class="prize-row-item">
+                    <span class="prize-badge">迎新七獎</span>
+                    <span class="prize-text-main">現折 66 元紅包</span>
+                </div>
+                <div class="prize-row-item" style="border-bottom: none;">
+                    <span class="prize-badge">新春加碼獎</span>
+                    <span class="prize-text-main">玻尿酸 15ML*1</span>
+                </div>
+            </div>
+            <p class="text-center text-yellow-100 text-xs mt-6 opacity-80">* 實際獎項內容依官網公告為準 *</p>
+        </div>
+    </div>
+
+    <!-- 中獎詳情彈窗 -->
+    <div class="modal-overlay" id="prize-popup-modal" onclick="handleOverlayClick(event, 'prize-popup-modal')">
+        <div class="modal-content">
+            <div class="modal-close" onclick="togglePrizeModal(false)">✕</div>
+            <div class="prize-announcement">
+                <h4>🧧 恭喜中獎 🧧</h4>
+                <div id="bundle-info">
+                    <div class="bundle-name" id="modal-bundle-name">好運美肌組</div>
+                    <div class="bundle-items" id="modal-bundle-items">傳明酸50ML+A醇50ML+B5乳50ML</div>
+                    <div class="bundle-pricing">
+                        <span class="orig" id="modal-bundle-orig">$2999</span>
+                        <span class="promo">優惠價 $2666</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-code-box">
+                <div class="modal-code-label">您的活動字串</div>
+                <div class="modal-code-value" id="modal-code-display">----</div>
+            </div>
+            <button class="btn-modal-copy" id="modal-copy-btn" onclick="copyToClipboard('modal-code-display', 'modal-copy-btn')">點我複製活動字串</button>
+            <br>
+            <a href="https://www.simplism.com.tw/products/product/" target="_blank" class="btn-more-info">更多新春活動詳情 ▹▹</a>
+        </div>
+    </div>
+
+    <!-- 活動詳情彈窗 - 內容已強化放大 -->
+    <div class="modal-overlay" id="activity-modal" onclick="handleOverlayClick(event, 'activity-modal')">
+        <div class="modal-content">
+            <div class="modal-close" onclick="toggleActivityModal(false)">✕</div>
+            <h3 class="text-2xl font-black text-center text-yellow-200 mb-4">🧧 春節限定活動 🧧</h3>
+            
+            <div class="flex justify-center">
+                <div class="activity-subtitle-highlight">
+                    每周三中午 12 點‧限量搶購 20 組
+                </div>
+            </div>
+            
+            <div class="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
+                <!-- 清單文字與間距優化 -->
+                <div class="activity-item">
+                    <span class="activity-date">2/4(三)</span>
+                    <div class="activity-name">傳明酸50ML 3入組</div>
+                    <div class="activity-price"><span class="original-price">原價2250</span><span class="special-price">優惠價$1800</span></div>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-date">2/11(三)</span>
+                    <div class="activity-name">淨荳精華50ML 3入組</div>
+                    <div class="activity-price"><span class="original-price">原價2100</span><span class="special-price">優惠價$1680</span></div>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-date">2/18(三)</span>
+                    <div class="activity-name">B5修護乳50ML 3入組</div>
+                    <div class="activity-price"><span class="original-price">原價2250</span><span class="special-price">優惠價$1800</span></div>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-date">2/25(三)</span>
+                    <div class="activity-name">修復乳霜50ML 2入組</div>
+                    <div class="activity-price"><span class="original-price">原價3598</span><span class="special-price">優惠價$2878</span></div>
+                </div>
+            </div>
+            <a href="https://www.simplism.com.tw/products/product/" target="_blank" class="btn-more-info">前往活動頁面 ▹▹</a>
+        </div>
+    </div>
+
     <script>
+        const winningBundles = [
+            { name: "好運美肌組", items: "(傳明酸50ML+A醇50ML+B5乳50ML)", orig: "$2999", promo: "2666" },
+            { name: "除舊佈新組", items: "(洗面乳300ML+水楊酸50ML+乳霜50ML)", orig: "$3049", promo: "2666" }
+        ];
+
         const prizes = [
-            { name: "現折66元", chance: 12, code: "MA66HA" },
-            { name: "現折88元", chance: 20, code: "MA88SP" },
-            { name: "現折168元", chance: 25, code: "MA168QX" },
-            { name: "現折188元", chance: 23.5, code: "MA188MB" },
-            { name: "現折288元", chance: 9, code: "MA288LO" },
-            { name: "現折588元", chance: 2, code: "MA588FW" },
-            { name: "現折1000元", chance: 0.5, code: "MA1000JG" },
-            { name: "玻尿酸15ML", chance: 8, code: "MA2026B3" }
+            { name: "開運頭獎 現折 1000 元紅包", chance: 0.5, code: "MA1000JG" },
+            { name: "招財二獎 現折 588 元紅包", chance: 2, code: "MA588FW" },
+            { name: "吉祥三獎 現折 288 元紅包", chance: 9, code: "MA288LO" },
+            { name: "好運四獎 現折 188 元紅包", chance: 23.5, code: "MA188MB" },
+            { name: "賀歲五獎 現折 168 元紅包", chance: 25, code: "MA168QX" },
+            { name: "福氣六獎 現折 88 元紅包", chance: 20, code: "MA88SP" },
+            { name: "迎新七獎 現折 66 元紅包", chance: 12, code: "MA66HA" },
+            { name: "新春加碼獎 玻尿酸 15ML*1", chance: 8, code: "MA2026B3" }
         ];
 
         let currentPrize = null;
+        let selectedBundle = null;
         let attemptsLeft = 1;
         let isScratchedThisTurn = false;
         let isDrawing = false;
         let lastX, lastY;
-        let copyTimer = null;
-        let hasInteracted = false;
         const brushSize = window.innerWidth < 640 ? 25 : 35;
 
         const STORAGE_KEY_ATTEMPTS = 'simplism_scratch_attempts_2026';
         const STORAGE_KEY_LAST_PRIZE_NAME = 'simplism_last_prize_name';
         const STORAGE_KEY_LAST_PRIZE_CODE = 'simplism_last_prize_code';
+        const STORAGE_KEY_SELECTED_BUNDLE = 'simplism_selected_bundle_index';
 
-        const bgMusic = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
-
-        function toggleModal(show) { document.getElementById('modal-overlay').style.display = show ? 'flex' : 'none'; }
-        function handleOverlayClick(e) { if (e.target.id === 'modal-overlay') toggleModal(false); }
-
-        function toggleMusic(e) {
-            if (e) e.stopPropagation();
-            if (bgMusic.paused) {
-                playMusic();
-            } else {
-                pauseMusic();
-            }
-        }
-
-        function playMusic() {
-            bgMusic.play().then(() => {
-                musicBtn.classList.add('playing');
-            }).catch(err => {
-                console.log("Autoplay blocked by browser");
-            });
-        }
-
-        function pauseMusic() {
-            bgMusic.pause();
-            musicBtn.classList.remove('playing');
-        }
-
-        function handleFirstInteraction() {
-            if (!hasInteracted) {
-                hasInteracted = true;
-                playMusic();
-            }
-        }
-
-        // 金蔥彩帶函式補回
         function createConfetti() {
             const container = document.getElementById('confetti-container');
+            if (!container) return;
             const colors = ['#fde68a', '#fbbf24', '#f59e0b', '#ef4444', '#ffffff'];
             container.innerHTML = '';
             for (let i = 0; i < 40; i++) {
@@ -536,6 +735,27 @@
             }
         }
 
+        function toggleRulesModal(show) { document.getElementById('rules-modal').style.display = show ? 'flex' : 'none'; }
+        
+        function updateBundleDisplay() {
+            if (!selectedBundle) return;
+            document.getElementById('modal-bundle-name').innerText = selectedBundle.name;
+            document.getElementById('modal-bundle-items').innerText = selectedBundle.items;
+            document.getElementById('modal-bundle-orig').innerText = selectedBundle.orig;
+        }
+
+        function togglePrizeModal(show) { 
+            const modal = document.getElementById('prize-popup-modal');
+            if(show) {
+                if (currentPrize) document.getElementById('modal-code-display').innerText = currentPrize.code;
+                updateBundleDisplay();
+            }
+            modal.style.display = show ? 'flex' : 'none'; 
+        }
+        
+        function toggleActivityModal(show) { document.getElementById('activity-modal').style.display = show ? 'flex' : 'none'; }
+        function handleOverlayClick(e, id) { if (e.target.id === id) document.getElementById(id).style.display = 'none'; }
+
         const canvas = document.getElementById('scratch-canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const container = document.getElementById('container');
@@ -543,9 +763,11 @@
         const prizeDisplay = document.getElementById('prize-display');
         const codeDisplay = document.getElementById('code-display');
         const copyBtn = document.getElementById('copy-btn');
+        const moreInfoBtn = document.getElementById('main-more-info-btn');
         const screenHint = document.getElementById('screenshot-hint');
-        const subHint = document.getElementById('sub-hint');
         const coin = document.getElementById('coin-cursor');
+        const prizeDetailBtn = document.getElementById('prize-detail-btn');
+        const resultActions = document.getElementById('result-actions');
 
         function pickPrize() {
             const random = Math.random() * 100;
@@ -564,17 +786,15 @@
             ctx.globalCompositeOperation = 'source-over';
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
             gradient.addColorStop(0, '#d1d5db'); gradient.addColorStop(0.5, '#9ca3af'); gradient.addColorStop(1, '#4b5563');
-            ctx.fillStyle = gradient; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
             for(let i=0; i<150; i++) {
                 ctx.fillStyle = i % 10 === 0 ? '#fbbf24' : 'rgba(255,255,255,0.1)';
                 ctx.beginPath(); ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5, 0, Math.PI*2); ctx.fill();
             }
-            const fontSize = Math.min(canvas.width / 12, 18);
-            ctx.font = `bold ${fontSize}px "Microsoft JhengHei"`;
+            ctx.font = `bold ${Math.min(canvas.width / 12, 18)}px "Microsoft JhengHei"`;
             ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
             ctx.textAlign = 'center';
-            ctx.fillText('馬 上 刮 開 即 中 獎', canvas.width/2, canvas.height/2 + (fontSize/3));
+            ctx.fillText('馬 上 刮 開 即 中 獎', canvas.width/2, canvas.height/2 + 6);
             canvas.style.opacity = '1';
             canvas.style.pointerEvents = 'auto';
             isScratchedThisTurn = false;
@@ -591,19 +811,25 @@
             if (percent > 45) {
                 isScratchedThisTurn = true;
                 attemptsLeft--;
+                const bundleIndex = Math.floor(Math.random() * winningBundles.length);
+                selectedBundle = winningBundles[bundleIndex];
                 localStorage.setItem(STORAGE_KEY_ATTEMPTS, attemptsLeft);
                 localStorage.setItem(STORAGE_KEY_LAST_PRIZE_NAME, currentPrize.name);
                 localStorage.setItem(STORAGE_KEY_LAST_PRIZE_CODE, currentPrize.code);
+                localStorage.setItem(STORAGE_KEY_SELECTED_BUNDLE, bundleIndex);
                 canvas.style.transition = 'opacity 0.8s ease-out';
                 canvas.style.opacity = '0';
                 coin.style.display = 'none';
-                statusMsg.innerHTML = `
-                    <div class="text-white font-bold text-lg">已刮開：100%</div>
-                    <div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>
-                `;
+                statusMsg.innerHTML = `<div class="text-white font-bold text-lg">已刮開：100%</div><div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>`;
+                
+                resultActions.classList.remove('min-h-0');
+                resultActions.classList.add('min-h-[120px]');
                 copyBtn.style.display = 'block';
+                moreInfoBtn.style.display = 'inline-block';
                 screenHint.classList.remove('opacity-0');
-                setTimeout(() => { canvas.style.pointerEvents = 'none'; }, 800);
+                prizeDetailBtn.style.display = 'block';
+
+                setTimeout(() => { togglePrizeModal(true); canvas.style.pointerEvents = 'none'; }, 500);
             } else {
                 statusMsg.innerText = `已刮開：${percent}%`;
             }
@@ -612,18 +838,21 @@
         function restoreFinalState() {
             const savedPrizeName = localStorage.getItem(STORAGE_KEY_LAST_PRIZE_NAME);
             const savedPrizeCode = localStorage.getItem(STORAGE_KEY_LAST_PRIZE_CODE);
+            const savedBundleIndex = localStorage.getItem(STORAGE_KEY_SELECTED_BUNDLE);
             if (savedPrizeName && savedPrizeCode) {
                 currentPrize = { name: savedPrizeName, code: savedPrizeCode };
+                if (savedBundleIndex !== null) selectedBundle = winningBundles[parseInt(savedBundleIndex)];
                 prizeDisplay.innerText = savedPrizeName;
                 codeDisplay.innerText = savedPrizeCode;
                 canvas.style.display = 'none';
-                statusMsg.innerHTML = `
-                    <div class="text-white font-bold text-lg">已刮開：100%</div>
-                    <div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>
-                `;
+                statusMsg.innerHTML = `<div class="text-white font-bold text-lg">已刮開：100%</div><div class="text-white font-bold text-lg">🎊 恭喜中獎！ 🎊</div>`;
+                
+                resultActions.classList.remove('min-h-0');
+                resultActions.classList.add('min-h-[120px]');
                 copyBtn.style.display = 'block';
+                moreInfoBtn.style.display = 'inline-block';
                 screenHint.classList.remove('opacity-0');
-                subHint.innerText = "刮獎次數已達上限";
+                prizeDetailBtn.style.display = 'block';
             }
         }
 
@@ -634,55 +863,39 @@
             return { x: clientX - rect.left, y: clientY - rect.top, pageX: clientX, pageY: clientY };
         }
 
-        function updateCoinPos(pageX, pageY) {
-            coin.style.left = pageX + 'px';
-            coin.style.top = pageY + 'px';
-        }
-
         function startDraw(e) { 
-            handleFirstInteraction(); 
             if(attemptsLeft <= 0 && !isScratchedThisTurn) return; 
             isDrawing = true; 
-            const p = getPos(e); 
-            lastX = p.x; lastY = p.y; 
+            const p = getPos(e); lastX = p.x; lastY = p.y; 
             coin.style.display = 'block';
-            updateCoinPos(p.pageX, p.pageY);
+            coin.style.left = p.pageX + 'px'; coin.style.top = p.pageY + 'px';
             draw(e); 
         }
-
         function endDraw() { if (!isDrawing) return; isDrawing = false; coin.style.display = 'none'; checkProgress(); }
-
         function draw(e) {
             if (!isDrawing) return;
             const p = getPos(e);
-            updateCoinPos(p.pageX, p.pageY);
+            coin.style.left = p.pageX + 'px'; coin.style.top = p.pageY + 'px';
             ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineWidth = brushSize;
-            ctx.lineCap = 'round';
+            ctx.lineWidth = brushSize; ctx.lineCap = 'round';
             ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke();
             lastX = p.x; lastY = p.y;
         }
 
-        function copyToClipboard() {
-            const el = document.createElement("textarea"); el.value = currentPrize.code; document.body.appendChild(el);
+        function copyToClipboard(elementId, btnId) {
+            const codeText = document.getElementById(elementId).innerText;
+            const el = document.createElement("textarea"); el.value = codeText; document.body.appendChild(el);
             el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            if (copyTimer) clearTimeout(copyTimer);
-            const btn = document.getElementById('copy-btn');
-            const originalText = "點我複製折扣碼";
-            btn.innerText = "已複製折扣碼！";
+            const btn = document.getElementById(btnId);
+            const originalText = btn.innerText;
+            btn.innerText = "已複製活動字串！";
             btn.style.background = "#22c55e"; btn.style.color = "white";
-            copyTimer = setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = ""; btn.style.color = "";
-                copyTimer = null;
-            }, 500);
+            setTimeout(() => { btn.innerText = originalText; btn.style.background = ""; btn.style.color = ""; }, 500);
         }
 
         window.onload = () => {
             const savedAttempts = localStorage.getItem(STORAGE_KEY_ATTEMPTS);
-            if (savedAttempts !== null) {
-                attemptsLeft = parseInt(savedAttempts);
-            }
+            if (savedAttempts !== null) attemptsLeft = parseInt(savedAttempts);
             if (attemptsLeft > 0) {
                 currentPrize = pickPrize();
                 prizeDisplay.innerText = currentPrize.name;
@@ -692,7 +905,6 @@
                 restoreFinalState();
             }
             createConfetti();
-            playMusic();
         };
 
         canvas.addEventListener('mousedown', startDraw);
