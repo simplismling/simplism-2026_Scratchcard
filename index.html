@@ -177,7 +177,7 @@
             user-select: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             border: 2px solid var(--deep-gold);
-            cursor: none; /* 隱藏原生游標以顯示金幣 */
+            cursor: none; 
         }
 
         .scratch-content {
@@ -237,7 +237,7 @@
             height: 40px;
             pointer-events: none;
             z-index: 9999;
-            display: none; /* 預設隱藏，由 JS 控制 */
+            display: none;
             transform: translate(-50%, -50%);
             filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
         }
@@ -470,7 +470,7 @@
             width: 180px; 
         }
 
-        /* 活動詳情副標題 */
+        /* 活動詳情副標題：強制手機版不換行 */
         .activity-subtitle-highlight {
             background: linear-gradient(135deg, #fbbf24, #d97706);
             color: #8c1010;
@@ -618,7 +618,7 @@
         </div>
     </div>
 
-    <!-- 活動詳情彈窗 -->
+    <!-- 活動詳情彈窗 - 優惠價第二位數已改為問號 -->
     <div class="modal-overlay" id="activity-modal" onclick="handleOverlayClick(event, 'activity-modal')">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleActivityModal(false)">✕</div>
@@ -632,22 +632,34 @@
                 <div class="activity-item">
                     <span class="activity-date">2/4(三)</span>
                     <div class="activity-name">傳明酸50ML 3入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2250</span><span class="special-price">優惠價$1800</span></div>
+                    <div class="activity-price">
+                        <span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2250</span>
+                        <span class="special-price">優惠價$1?00</span>
+                    </div>
                 </div>
                 <div class="activity-item">
                     <span class="activity-date">2/11(三)</span>
                     <div class="activity-name">淨荳精華50ML 3入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2100</span><span class="special-price">優惠價$1680</span></div>
+                    <div class="activity-price">
+                        <span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2100</span>
+                        <span class="special-price">優惠價$1?80</span>
+                    </div>
                 </div>
                 <div class="activity-item">
                     <span class="activity-date">2/18(三)</span>
                     <div class="activity-name">B5修護乳50ML 3入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2250</span><span class="special-price">優惠價$1800</span></div>
+                    <div class="activity-price">
+                        <span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價2250</span>
+                        <span class="special-price">優惠價$1?00</span>
+                    </div>
                 </div>
                 <div class="activity-item">
                     <span class="activity-date">2/25(三)</span>
                     <div class="activity-name">修復乳霜50ML 2入組</div>
-                    <div class="activity-price"><span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價3598</span><span class="special-price">優惠價$2878</span></div>
+                    <div class="activity-price">
+                        <span class="orig opacity-60 line-through mr-2 text-white text-[0.9rem]">原價3598</span>
+                        <span class="special-price">優惠價$2?78</span>
+                    </div>
                 </div>
             </div>
             <a href="https://www.simplism.com.tw/products/product/" target="_blank" class="btn-more-info">前往活動頁面 ▹▹</a>
@@ -776,7 +788,6 @@
             return { x: clientX - rect.left, y: clientY - rect.top, pagePageX: clientX, pagePageY: clientY };
         }
 
-        // 當滑鼠移動時，定位金幣位置
         function handleCursorMove(e) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -843,15 +854,12 @@
             createConfetti();
         };
 
-        // 畫布滑鼠事件：控制金幣顯示與移動
         canvas.addEventListener('mouseenter', () => { if (!isScratchedThisTurn) coin.style.display = 'block'; });
         canvas.addEventListener('mouseleave', () => { coin.style.display = 'none'; });
         canvas.addEventListener('mousemove', (e) => { handleCursorMove(e); draw(e); });
-        
         canvas.addEventListener('mousedown', startDraw); 
         window.addEventListener('mouseup', endDraw); 
         
-        // 觸控事件
         canvas.addEventListener('touchstart', (e) => { 
             if (e.target === canvas) e.preventDefault(); 
             coin.style.display = 'block'; 
