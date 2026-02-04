@@ -433,7 +433,7 @@
         .activity-name { color: #fff; font-weight: 900; font-size: 1.1rem; margin-bottom: 4px; }
         .special-price { color: var(--gold); font-weight: 900; font-size: 1.3rem; }
 
-        /* 紅包獎項樣式 */
+        /* 紅包獎項樣式 - 更新標籤對齊 */
         .prize-row-item {
             border-bottom: 1px solid rgba(253, 230, 138, 0.2);
             padding: 12px 10px;
@@ -470,7 +470,7 @@
             width: 180px; 
         }
 
-        /* 活動詳情副標題：強制手機版不換行 */
+        /* 活動詳情副標題 */
         .activity-subtitle-highlight {
             background: linear-gradient(135deg, #fbbf24, #d97706);
             color: #8c1010;
@@ -495,7 +495,6 @@
 
     <div class="confetti-container" id="confetti-container"></div>
     
-    <!-- 金幣游標元件 -->
     <div id="coin-cursor">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="48" fill="#B45309" />
@@ -571,20 +570,20 @@
         <div class="side-btn" onclick="toggleRulesModal(true)">紅包獎項</div>
     </div>
 
-    <!-- 紅包獎項彈窗 -->
+    <!-- 紅包獎項彈窗 - 標籤對應與文字校對 -->
     <div class="modal-overlay" id="rules-modal" onclick="handleOverlayClick(event, 'rules-modal')">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleRulesModal(false)">✕</div>
             <h3 class="modal-title-gold">🧧 紅包獎項 🧧</h3>
             <div class="space-y-1 pr-1 text-center">
-                <div class="prize-row-item"><span class="prize-badge">開運頭獎</span><span class="prize-text-main">現折 1000 元紅包</span></div>
-                <div class="prize-row-item"><span class="prize-badge">招財二獎</span><span class="prize-text-main">現折 588 元紅包</span></div>
-                <div class="prize-row-item"><span class="prize-badge">吉祥三獎</span><span class="prize-text-main">現折 288 元紅包</span></div>
-                <div class="prize-row-item"><span class="prize-badge">好運四獎</span><span class="prize-text-main">現折 188 元紅包</span></div>
-                <div class="prize-row-item"><span class="prize-badge">賀歲五獎</span><span class="prize-text-main">現折 168 元紅包</span></div>
-                <div class="prize-row-item"><span class="prize-badge">福氣六獎</span><span class="prize-text-main">現折 88 元紅包</span></div>
-                <div class="prize-row-item"><span class="prize-badge">迎新七獎</span><span class="prize-text-main">現折 66 元紅包</span></div>
-                <div class="prize-row-item" style="border-bottom: none;"><span class="prize-badge">新春加碼獎</span><span class="prize-text-main">玻尿酸 15ML*1</span></div>
+                <div class="prize-row-item"><span class="prize-badge">開運頭獎</span><span class="prize-text-main">現折1000元紅包</span></div>
+                <div class="prize-row-item"><span class="prize-badge">招財二獎</span><span class="prize-text-main">現折588元紅包</span></div>
+                <div class="prize-row-item"><span class="prize-badge">吉祥三獎</span><span class="prize-text-main">現折288元紅包</span></div>
+                <div class="prize-row-item"><span class="prize-badge">好運四獎</span><span class="prize-text-main">現折188元紅包</span></div>
+                <div class="prize-row-item"><span class="prize-badge">賀歲五獎</span><span class="prize-text-main">現折168元紅包</span></div>
+                <div class="prize-row-item"><span class="prize-badge">福氣六獎</span><span class="prize-text-main">現折88元紅包</span></div>
+                <div class="prize-row-item"><span class="prize-badge">迎新七獎</span><span class="prize-text-main">現折66元紅包</span></div>
+                <div class="prize-row-item" style="border-bottom: none;"><span class="prize-badge">新春加碼獎</span><span class="prize-text-main">玻尿酸15ML*1</span></div>
             </div>
         </div>
     </div>
@@ -672,15 +671,16 @@
             { name: "金燦煥顏組", items: "(洗面乳300ML+水楊酸50ML+乳霜50ML)", orig: "$3049", promo: "2666" }
         ];
 
+        // 根據使用者表格校對的精準中獎機率與字串
         const prizes = [
-            { name: "現折 1000 元紅包", chance: 0.5, code: "MA1000JG" },
-            { name: "現折 588 元紅包", chance: 2, code: "MA588FW" },
-            { name: "現折 288 元紅包", chance: 9, code: "MA288LO" },
-            { name: "現折 188 元紅包", chance: 23.5, code: "MA188MB" },
-            { name: "現折 168 元紅包", chance: 25, code: "MA168QX" },
-            { name: "現折 88 元紅包", chance: 20, code: "MA88SP" },
-            { name: "現折 66 元紅包", chance: 12, code: "MA66HA" },
-            { name: "玻尿酸 15ML*1", chance: 8, code: "MA2026B3" }
+            { name: "現折1000元", chance: 0.5, code: "MA1000JG" },
+            { name: "現折588元", chance: 2, code: "MA588FW" },
+            { name: "現折288元", chance: 9, code: "MA288LO" },
+            { name: "現折188元", chance: 23.5, code: "MA188MB" },
+            { name: "現折168元", chance: 25, code: "MA168QX" },
+            { name: "現折88元", chance: 20, code: "MA88SP" },
+            { name: "現折66元", chance: 12, code: "MA66HA" },
+            { name: "玻尿酸15ML*1", chance: 8, code: "MA2026B3" }
         ];
 
         let currentPrize = null, selectedBundle = null, attemptsLeft = 1, isScratchedThisTurn = false, isDrawing = false, lastX, lastY;
@@ -720,7 +720,10 @@
         function pickPrize() {
             const random = Math.random() * 100;
             let cumulative = 0;
-            for (const prize of prizes) { cumulative += prize.chance; if (random < cumulative) return prize; }
+            for (const prize of prizes) {
+                cumulative += prize.chance;
+                if (random < cumulative) return prize;
+            }
             return prizes[prizes.length - 1];
         }
 
@@ -785,7 +788,7 @@
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top, pagePageX: clientX, pagePageY: clientY };
+            return { x: clientX - rect.left, y: clientY - rect.top };
         }
 
         function handleCursorMove(e) {
