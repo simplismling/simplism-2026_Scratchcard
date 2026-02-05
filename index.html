@@ -203,15 +203,23 @@
             .prize-value { font-size: 1.6rem; margin-bottom: 15px; }
         }
 
+        /* 活動字串：揭曉後才顯示 */
         .code-container {
             background: rgba(0, 0, 0, 0.4);
             padding: 8px 15px;
             border-radius: 6px;
             border: 1px dashed var(--gold);
-            display: flex;
+            display: none; 
             flex-direction: column;
             align-items: center;
             gap: 2px;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .scratch-content.revealed .code-container {
+            display: flex;
+            opacity: 1;
         }
 
         .code-label { font-size: 0.7rem; color: var(--gold); font-weight: bold; }
@@ -433,7 +441,7 @@
         .activity-name { color: #fff; font-weight: 900; font-size: 1.1rem; margin-bottom: 4px; }
         .special-price { color: var(--gold); font-weight: 900; font-size: 1.3rem; }
 
-        /* 紅包獎項樣式 - 更新標籤對齊 */
+        /* 紅包獎項樣式 */
         .prize-row-item {
             border-bottom: 1px solid rgba(253, 230, 138, 0.2);
             padding: 12px 10px;
@@ -530,10 +538,10 @@
 
         <div class="scratch-area-outer">
             <div class="scratch-container" id="container">
-                <div class="scratch-content">
+                <div class="scratch-content" id="scratch-content">
                     <span class="prize-label">恭喜獲得</span>
                     <span class="prize-value" id="prize-display">---</span>
-                    <div class="code-container">
+                    <div class="code-container" id="code-container">
                         <span class="code-label">活動字串 (結帳時輸入)</span>
                         <span class="code-text" id="code-display">----</span>
                     </div>
@@ -570,7 +578,7 @@
         <div class="side-btn" onclick="toggleRulesModal(true)">紅包獎項</div>
     </div>
 
-    <!-- 紅包獎項彈窗 - 標籤對應與文字校對 -->
+    <!-- 紅包獎項彈窗 -->
     <div class="modal-overlay" id="rules-modal" onclick="handleOverlayClick(event, 'rules-modal')">
         <div class="modal-content">
             <div class="modal-close" onclick="toggleRulesModal(false)">✕</div>
@@ -671,7 +679,6 @@
             { name: "金燦煥顏組", items: "(洗面乳300ML+水楊酸50ML+乳霜50ML)", orig: "$3049", promo: "2666" }
         ];
 
-        // 根據使用者表格校對的精準中獎機率與字串
         const prizes = [
             { name: "現折1000元", chance: 0.5, code: "MA1000JG" },
             { name: "現折588元", chance: 2, code: "MA588FW" },
@@ -684,6 +691,8 @@
         ];
 
         let currentPrize = null, selectedBundle = null, attemptsLeft = 1, isScratchedThisTurn = false, isDrawing = false, lastX, lastY;
+        let prizeAreaScratchPoints = 0; 
+
         const STORAGE_KEY_ATTEMPTS = 'simplism_scratch_attempts_2026';
         const STORAGE_KEY_LAST_PRIZE_NAME = 'simplism_last_prize_name';
         const STORAGE_KEY_LAST_PRIZE_CODE = 'simplism_last_prize_code';
@@ -707,6 +716,7 @@
         const canvas = document.getElementById('scratch-canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const container = document.getElementById('container');
+        const scratchContent = document.getElementById('scratch-content');
         const statusMsg = document.getElementById('status-msg');
         const prizeDisplay = document.getElementById('prize-display');
         const codeDisplay = document.getElementById('code-display');
@@ -720,10 +730,7 @@
         function pickPrize() {
             const random = Math.random() * 100;
             let cumulative = 0;
-            for (const prize of prizes) {
-                cumulative += prize.chance;
-                if (random < cumulative) return prize;
-            }
+            for (const prize of prizes) { cumulative += prize.chance; if (random < cumulative) return prize; }
             return prizes[prizes.length - 1];
         }
 
@@ -744,6 +751,40 @@
             ctx.textAlign = 'center';
             ctx.fillText('馬 上 刮 開 即 中 獎', canvas.width/2, canvas.height/2 + 6);
             isScratchedThisTurn = false;
+            prizeAreaScratchPoints = 0;
+        }
+
+        function revealEverything() {
+            if (isScratchedThisTurn) return;
+            isScratchedThisTurn = true;
+            attemptsLeft--;
+            
+            const bundleIndex = Math.floor(Math.random() * winningBundles.length);
+            selectedBundle = winningBundles[bundleIndex];
+            
+            localStorage.setItem(STORAGE_KEY_ATTEMPTS, attemptsLeft);
+            localStorage.setItem(STORAGE_KEY_LAST_PRIZE_NAME, currentPrize.name);
+            localStorage.setItem(STORAGE_KEY_LAST_PRIZE_CODE, currentPrize.code);
+            localStorage.setItem(STORAGE_KEY_SELECTED_BUNDLE, bundleIndex);
+            
+            canvas.style.pointerEvents = 'none';
+            canvas.style.transition = 'opacity 0.4s ease-out';
+            canvas.style.opacity = '0';
+            coin.style.display = 'none';
+            
+            scratchContent.classList.add('revealed');
+            
+            statusMsg.innerHTML = `<div class="text-white font-bold">已刮開：100%</div>`;
+            resultActions.classList.add('mt-4');
+            copyBtn.style.display = 'block';
+            moreInfoBtn.style.display = 'inline-block';
+            screenHint.classList.remove('opacity-0');
+            prizeDetailBtn.style.display = 'block';
+
+            setTimeout(() => { 
+                togglePrizeModal(true); 
+                canvas.style.display = 'none';
+            }, 400);
         }
 
         function checkProgress() {
@@ -753,20 +794,13 @@
             let transparentCount = 0;
             for (let i = 3; i < pixels.length; i += 32) { if (pixels[i] === 0) transparentCount++; }
             let percent = Math.round((transparentCount / (pixels.length/32)) * 100);
-            if (percent > 45) {
-                isScratchedThisTurn = true; attemptsLeft--;
-                const bundleIndex = Math.floor(Math.random() * winningBundles.length);
-                selectedBundle = winningBundles[bundleIndex];
-                localStorage.setItem(STORAGE_KEY_ATTEMPTS, attemptsLeft);
-                localStorage.setItem(STORAGE_KEY_LAST_PRIZE_NAME, currentPrize.name);
-                localStorage.setItem(STORAGE_KEY_LAST_PRIZE_CODE, currentPrize.code);
-                localStorage.setItem(STORAGE_KEY_SELECTED_BUNDLE, bundleIndex);
-                canvas.style.transition = 'opacity 0.8s'; canvas.style.opacity = '0'; coin.style.display = 'none';
-                statusMsg.innerHTML = `<div class="text-white font-bold">已刮開：100%</div>`;
-                resultActions.classList.add('mt-4'); copyBtn.style.display = 'block'; moreInfoBtn.style.display = 'inline-block';
-                screenHint.classList.remove('opacity-0'); prizeDetailBtn.style.display = 'block';
-                setTimeout(() => { togglePrizeModal(true); canvas.style.pointerEvents = 'none'; }, 500);
-            } else { statusMsg.innerText = `已刮開：${percent}%`; }
+            
+            // 提高揭曉門檻 (面積達 55% 揭曉)
+            if (percent > 55) {
+                revealEverything();
+            } else { 
+                statusMsg.innerText = `已刮開：${percent}%`; 
+            }
         }
 
         function restoreFinalState() {
@@ -776,11 +810,16 @@
             if (savedPrizeName && savedPrizeCode) {
                 currentPrize = { name: savedPrizeName, code: savedPrizeCode };
                 if (savedBundleIndex !== null) selectedBundle = winningBundles[parseInt(savedBundleIndex)];
-                prizeDisplay.innerText = savedPrizeName; codeDisplay.innerText = savedPrizeCode;
+                prizeDisplay.innerText = savedPrizeName; 
+                codeDisplay.innerText = savedPrizeCode;
                 canvas.style.display = 'none'; 
+                scratchContent.classList.add('revealed');
                 statusMsg.innerHTML = `<div class="text-white font-bold">已刮開：100%</div>`;
-                resultActions.classList.add('mt-4'); copyBtn.style.display = 'block'; moreInfoBtn.style.display = 'inline-block';
-                screenHint.classList.remove('opacity-0'); prizeDetailBtn.style.display = 'block';
+                resultActions.classList.add('mt-4'); 
+                copyBtn.style.display = 'block'; 
+                moreInfoBtn.style.display = 'inline-block';
+                screenHint.classList.remove('opacity-0'); 
+                prizeDetailBtn.style.display = 'block';
             }
         }
 
@@ -788,18 +827,17 @@
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top };
+            return { x: clientX - rect.left, y: clientY - rect.top, clientX, clientY };
         }
 
         function handleCursorMove(e) {
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            coin.style.left = clientX + 'px';
-            coin.style.top = clientY + 'px';
+            const pos = getPos(e);
+            coin.style.left = pos.clientX + 'px';
+            coin.style.top = pos.clientY + 'px';
         }
 
         function startDraw(e) { 
-            if(attemptsLeft <= 0 && !isScratchedThisTurn) return; 
+            if(attemptsLeft <= 0 || isScratchedThisTurn) return; 
             isDrawing = true; 
             const p = getPos(e); lastX = p.x; lastY = p.y; 
             handleCursorMove(e);
@@ -813,9 +851,11 @@
         }
 
         function draw(e) { 
-            if (!isDrawing) return; 
+            if (!isDrawing || isScratchedThisTurn) return; 
             const p = getPos(e); 
             handleCursorMove(e);
+
+            // 繪製刮除
             ctx.globalCompositeOperation = 'destination-out'; 
             ctx.lineWidth = window.innerWidth < 640 ? 25 : 35; 
             ctx.lineCap = 'round'; 
@@ -824,6 +864,15 @@
             ctx.lineTo(p.x, p.y); 
             ctx.stroke(); 
             lastX = p.x; lastY = p.y; 
+
+            // 智慧揭曉：刮到核心獎項區域 (Y 座標在 15%~55% 區間)
+            if (p.y > canvas.height * 0.15 && p.y < canvas.height * 0.55) {
+                prizeAreaScratchPoints++;
+                // 提高感應門檻，確保使用者已經明顯刮開獎項區域 (門檻 35)
+                if (prizeAreaScratchPoints > 35) {
+                    revealEverything();
+                }
+            }
         }
 
         function copyToClipboard(elementId, btnId) {
@@ -852,20 +901,25 @@
         window.onload = () => {
             const savedAttempts = localStorage.getItem(STORAGE_KEY_ATTEMPTS);
             if (savedAttempts !== null) attemptsLeft = parseInt(savedAttempts);
-            if (attemptsLeft > 0) { currentPrize = pickPrize(); prizeDisplay.innerText = currentPrize.name; codeDisplay.innerText = currentPrize.code; initCanvas(); } 
+            if (attemptsLeft > 0) { 
+                currentPrize = pickPrize(); 
+                prizeDisplay.innerText = currentPrize.name; 
+                codeDisplay.innerText = currentPrize.code; 
+                initCanvas(); 
+            } 
             else { restoreFinalState(); }
             createConfetti();
         };
 
         canvas.addEventListener('mouseenter', () => { if (!isScratchedThisTurn) coin.style.display = 'block'; });
         canvas.addEventListener('mouseleave', () => { coin.style.display = 'none'; });
-        canvas.addEventListener('mousemove', (e) => { handleCursorMove(e); draw(e); });
+        canvas.addEventListener('mousemove', (e) => { handleCursorMove(e); if(isDrawing) draw(e); });
         canvas.addEventListener('mousedown', startDraw); 
         window.addEventListener('mouseup', endDraw); 
         
         canvas.addEventListener('touchstart', (e) => { 
             if (e.target === canvas) e.preventDefault(); 
-            coin.style.display = 'block'; 
+            if (!isScratchedThisTurn) coin.style.display = 'block'; 
             startDraw(e); 
         }, { passive: false });
         window.addEventListener('touchend', () => {
@@ -875,7 +929,7 @@
         canvas.addEventListener('touchmove', (e) => { 
             if (e.target === canvas) e.preventDefault(); 
             handleCursorMove(e);
-            draw(e); 
+            if(isDrawing) draw(e); 
         }, { passive: false });
 
         window.addEventListener('resize', () => { if(attemptsLeft > 0 && !isScratchedThisTurn) initCanvas(); });
